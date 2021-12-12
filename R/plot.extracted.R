@@ -186,7 +186,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = F, meth
       mutate(standard = numextract(Sample), .before = 3)
     check <- filter(data, str_detect(toupper(Sample), "CHECK") )%>%
       mutate(standard = numextract(Sample), .before = 3)
-    asdf <- summary(lm(log(AUC) ~ log(standard), data = curv))
+    asdf <- summary(lm(log(AUC) ~ log(standard)^2, data = curv))
     Y <- as.numeric(asdf$coefficients[1])
     M <- as.numeric(asdf$coefficients[2])
     R <- as.numeric(asdf$adj.r.squared)
@@ -196,14 +196,14 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = F, meth
     r.squared <- paste0("adjusted R^2 = ", round(form$R, digits = 4))
     if(max(curv$standard) > max(check$standard)){
       ggplot()+
-        geom_smooth(formula = y~x, data = curv, aes(x = log(standard), y = log(AUC_ppm)),
+        geom_smooth(formula = y~x, data = curv, aes(x = log(standard)^2, y = log(AUC_ppm)),
                              method = lm, se = T, lwd = 1, color = "red", fullrange = T, fill = "dodgerblue") +
-        geom_point(data = check, aes(x = log(standard), y = log(AUC_ppm), fill = "Check"), size = 4, shape = 21, alpha = .5) +
-        geom_point(data = curv, aes(x = log(standard), y = log(AUC_ppm), fill = "Curve"), size = 3, shape = 24, alpha = .5) +
+        geom_point(data = check, aes(x = log(standard)^2, y = log(AUC_ppm), fill = "Check"), size = 4, shape = 21, alpha = .5) +
+        geom_point(data = curv, aes(x = log(standard)^2, y = log(AUC_ppm), fill = "Curve"), size = 3, shape = 24, alpha = .5) +
         scale_fill_manual(name = "Standard", values = c("grey70", "darkblue"), guide = guide_legend(override.aes = list(
           shape = c(21,24),
           size = c(3,3)))) +
-        geom_text(data = curv, aes(x = (((max(log(standard))-min(log(standard)))*.25)+min(log(standard))),
+        geom_text(data = curv, aes(x = (((max(log(standard)^2)-min(log(standard)^2))*.25)+min(log(standard)^2)),
                                                      y = (((max(log(AUC_ppm))-min(log(AUC_ppm)))*.75)+min(log(AUC_ppm))),
                                                      label = paste(form2, r.squared, sep = "\n"))) +
         ggtitle("Log Standard Curve for All Samples") +
@@ -211,14 +211,14 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = F, meth
         UNR()
     } else if(max(curv$standard) <= max(check$standard)){
       ggplot()+
-        geom_smooth(formula = y~x, data = curv, aes(x = log(standard), y = log(AUC_ppm)),
+        geom_smooth(formula = y~x, data = curv, aes(x = log(standard)^2, y = log(AUC_ppm)),
                              method = lm, se = T, lwd = 1, color = "red", fullrange = T, fill = "dodgerblue") +
-        geom_point(data = check, aes(x = log(standard), y = log(AUC_ppm), fill = "Check"), size = 4, shape = 21, alpha = .5) +
-        geom_point(data = curv, aes(x = log(standard), y = log(AUC_ppm), fill = "Curve"), size = 3, shape = 24, alpha = .5) +
+        geom_point(data = check, aes(x = log(standard)^2, y = log(AUC_ppm), fill = "Check"), size = 4, shape = 21, alpha = .5) +
+        geom_point(data = curv, aes(x = log(standard)^2, y = log(AUC_ppm), fill = "Curve"), size = 3, shape = 24, alpha = .5) +
         scale_fill_manual(name = "Standard", values = c("grey70", "darkblue"), guide = guide_legend(override.aes = list(
           shape = c(21,24),
           size = c(3,3)))) +
-        geom_text(data = check, aes(x = (((max(log(standard))-min(log(standard)))*.25)+min(log(standard))),
+        geom_text(data = check, aes(x = (((max(log(standard)^2)-min(log(standard)^2))*.25)+min(log(standard)^2)),
                                                       y = (((max(log(AUC_ppm))-min(log(AUC_ppm)))*.75)+min(log(AUC_ppm))),
                                                       label = paste(form2, r.squared, sep = "\n"))) +
         ggtitle("Log Standard Curve for All Samples") +
@@ -230,7 +230,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = F, meth
       mutate(standard = numextract(Sample), .before = 3)
     check.2 <- filter(data, str_detect(toupper(Sample), "CHECK"), File_Name == file)%>%
       mutate(standard = numextract(Sample), .before = 3)
-    asdf.2 <- summary(lm(log(AUC) ~ log(standard), data = curv.2))
+    asdf.2 <- summary(lm(log(AUC) ~ log(standard)^2, data = curv.2))
     Y.2 <- as.numeric(asdf.2$coefficients[1])
     M.2 <- as.numeric(asdf.2$coefficients[2])
     R.2 <- as.numeric(asdf.2$adj.r.squared)
@@ -240,14 +240,14 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = F, meth
     r.squared.2 <- paste0("adjusted R", "^", 2,  sep = "", " = ", round(form.2$R, digits = 4))
     if(max(curv.2$standard) > max(check.2$standard)){
       ggplot()+
-        geom_smooth(formula = y~x, data = curv.2, aes(x = log(standard), y = log(AUC_ppm)),
+        geom_smooth(formula = y~x, data = curv.2, aes(x = log(standard)^2, y = log(AUC_ppm)),
                              method = lm, se = T, lwd = 1, color = "red", fullrange = T, fill = "dodgerblue") +
-        geom_point(data = check.2, aes(x = log(standard), y = log(AUC_ppm), fill = "Check"), size = 4, shape = 21, alpha = .5) +
-        geom_point(data = curv.2, aes(x = log(standard), y = log(AUC_ppm), fill = "Curve"), size = 3, shape = 24, alpha = .5) +
+        geom_point(data = check.2, aes(x = log(standard)^2, y = log(AUC_ppm), fill = "Check"), size = 4, shape = 21, alpha = .5) +
+        geom_point(data = curv.2, aes(x = log(standard)^2, y = log(AUC_ppm), fill = "Curve"), size = 3, shape = 24, alpha = .5) +
         scale_fill_manual(name = "Standard", values = c("grey70", "darkblue"), guide = guide_legend(override.aes = list(
           shape = c(21,24),
           size = c(3,3)))) +
-        geom_text(data = curv.2, aes(x = (((max(log(standard))-min(log(standard)))*.25)+min(log(standard))),
+        geom_text(data = curv.2, aes(x = (((max(log(standard)^2)-min(log(standard)^2))*.25)+min(log(standard)^2)),
                                                        y = (((max(log(AUC_ppm))-min(log(AUC_ppm)))*.75)+min(log(AUC_ppm))),
                                                        label = paste(form2.2, r.squared.2, sep = "\n"))) +
         ggtitle(paste0("Log Standard Curve for ", curv.2$File_Name)) +
@@ -255,14 +255,14 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = F, meth
         UNR()
     } else if(max(curv.2$standard) <= max(check.2$standard)){
       ggplot()+
-        geom_smooth(formula = y~x, data = curv.2, aes(x = log(standard), y = log(AUC_ppm)),
+        geom_smooth(formula = y~x, data = curv.2, aes(x = log(standard)^2, y = log(AUC_ppm)),
                              method = lm, se = T, lwd = 1, color = "red", fullrange = T, fill = "dodgerblue") +
-        geom_point(data = check.2, aes(x = log(standard), y = log(AUC_ppm), fill = "Check"), size = 4, shape = 21, alpha = .5) +
-        geom_point(data = curv.2, aes(x = log(standard), y = log(AUC_ppm), fill = "Curve"), size = 3, shape = 24, alpha = .5) +
+        geom_point(data = check.2, aes(x = log(standard)^2, y = log(AUC_ppm), fill = "Check"), size = 4, shape = 21, alpha = .5) +
+        geom_point(data = curv.2, aes(x = log(standard)^2, y = log(AUC_ppm), fill = "Curve"), size = 3, shape = 24, alpha = .5) +
         scale_fill_manual(name = "Standard", values = c("grey70", "darkblue"), guide = guide_legend(override.aes = list(
           shape = c(21,24),
           size = c(3,3)))) +
-         geom_text(data = check.2, aes(x = (((max(log(standard))-min(log(standard)))*.25)+min(log(standard))),
+         geom_text(data = check.2, aes(x = (((max(log(standard)^2)-min(log(standard)^2))*.25)+min(log(standard)^2)),
                                                          y = (((max(log(AUC_ppm))-min(log(AUC_ppm)))*.75)+min(log(AUC_ppm))),
                                                          label = paste(form2.2, r.squared.2, sep = "\n"))) +
         ggtitle(paste0("Log Standard Curve for ", curv.2$File_Name)) +
