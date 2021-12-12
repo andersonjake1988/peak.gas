@@ -4,7 +4,7 @@
 \alias{extract.peaks}
 \title{A CO2 peak finding function designed for Li-Cor LI-8100A}
 \usage{
-extract.peaks(
+\method{extract}{peaks}(
   cut.off = 2,
   method = "linear",
   standard.sum = F,
