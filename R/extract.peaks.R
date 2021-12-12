@@ -452,7 +452,9 @@ extract.peaks <- function(cut.off = 2, method = "linear", standard.sum = F,
     if(standard.sum == T){
       View(standard.summary.stats)
     }
-    return(output)
+    output_final <- as_tibble(output)
+    class(output_final) <- c("extracted", class(output_final))
+    return(output_final)
   } else {
     print(' ')
     warning('No standard curve data found, could not compute concentration')
