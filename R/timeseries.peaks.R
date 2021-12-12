@@ -4,10 +4,10 @@
 #'
 #' @keywords LiCor, Peak, CO2, Li-Cor, gas, plot
 #' @import tidyverse
-#' @export
 #' @examples
 #' setwd(path.package("peak.gas"))
 #' output <- timeseries.peaks()
+#' @export
 
 timeseries.peaks <- function(){
   filelist <- list.files(pattern = c(".txt", ".TXT"))
@@ -17,10 +17,10 @@ timeseries.peaks <- function(){
   for(i in 1:length(filelist)){
     setTxtProgressBar(progress_bar, i)
     b <- read.table(filelist[i], header = T, sep = "\t", fill = T, strip.white = T, check.names = F)
-    data.1 <- dplyr::mutate(b, Sample = NA, .before = 1)
+    data.1 <- mutate(b, Sample = NA, .before = 1)
     names(data.1) <- c("Sample", "Test", "Time", "CO2")
     data.1 <- cbind(data.1, File = filelist[i])
-    data.2 <- dplyr::filter(data.1, Test != "--------------------------------------------------------------")
+    data.2 <- filter(data.1, Test != "--------------------------------------------------------------")
     data.3 <- data.2
     for(i in 1:nrow(data.2)){
       if(is.na(data.2[i,4])==T){
@@ -29,10 +29,10 @@ timeseries.peaks <- function(){
         next
       }
     }
-    data.4 <- na.omit(tidyr::fill(data.3, Sample, .direction = "down"))
+    data.4 <- na.omit(fill(data.3, Sample, .direction = "down"))
     output.raw <- rbind(output.raw, data.4)
   }
-  output.raw$Time <- lubridate::as_datetime(output.raw$Time)
+  output.raw$Time <- as_datetime(output.raw$Time)
   output_final <- output.raw[, c(5,1,3,4)]
   class(output_final) <- c("timeseries", class(output_final))
   return(output_final)

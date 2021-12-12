@@ -9,7 +9,6 @@
 #' @param time.stop option to specify when you want the plot to stop
 #' @keywords LiCor, Peak, CO2, Li-Cor, gas, plot
 #' @import tidyverse
-#' @export
 #' @examples
 #' setwd(path.package("peak.gas"))
 #' test <- timeseries.peaks()
@@ -23,6 +22,7 @@
 #' Plot.timeseries(test, file = "vn_veg_07292021.txt", sample = "NS_Veg", time.start = "2021-08-02 13:01:00")
 #' Plot.timeseries(test, file = "vn_veg_07292021.txt", sample = "NS_Veg", time.stop = "2021-08-02 12:54:00")
 #' Plot.timeseries(test, file = "vn_veg_07292021.txt", sample = "NS_Veg", time.start = "2021-08-02 12:56:00", time.stop = "2021-08-02 13:01:00")
+#' @export
 plot.timeseries <- function(data, file, sample = NULL, time.start = NULL, time.stop = NULL){
   UNR <- function(){
     theme(text = element_text(color = "black", size = 15),
@@ -100,7 +100,7 @@ plot.timeseries <- function(data, file, sample = NULL, time.start = NULL, time.s
       UNR()
   } else if(!is.null(file) & is.null(sample) & !is.null(time.start) & !is.null(time.stop)){
     file.plot <- filter(data, File == file)
-    start.stop <- filter(file.plot, Time >= as_datetime(time.start) & Time <= lubridate::as_datetime(time.stop))
+    start.stop <- filter(file.plot, Time >= as_datetime(time.start) & Time <= as_datetime(time.stop))
     samples <- paste0(unique(start.stop$Sample), collapse = ', ')
     samples.2 <- str_wrap(samples, width = 40)
     ggplot(start.stop, aes(x = Time, y = CO2))+
@@ -110,7 +110,7 @@ plot.timeseries <- function(data, file, sample = NULL, time.start = NULL, time.s
   } else if(!is.null(file) & !is.null(sample) & !is.null(time.start) & !is.null(time.stop)){
     file.plot <- filter(data, File == file)
     sample.plot <- filter(file.plot, Sample == sample)
-    start.stop <- filter(sample.plot, Time >= as_datetime(time.start) & Time <= lubridate::as_datetime(time.stop))
+    start.stop <- filter(sample.plot, Time >= as_datetime(time.start) & Time <= as_datetime(time.stop))
     ggplot(start.stop, aes(x = Time, y = CO2))+
       geom_line(color = "blue")+
       ggtitle(paste0("File: ", " ", file, "\nSample: ", sample))+

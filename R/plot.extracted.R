@@ -9,7 +9,6 @@
 #' @param method Specify whether you want to plot the "linear" relationship or the "log" transformed relationship
 #' @keywords LiCor, Peak, CO2, Li-Cor, gas, plot
 #' @import tidyverse
-#' @export
 #' @examples
 #' setwd(path.package("peak.gas"))
 #' output <- extract.peaks()
@@ -20,6 +19,7 @@
 #' plot.extracted(output, file = "vn_darkveg_071621.txt")
 #' plot.extracted(output, sample = "NN_DARKVEG")
 #' plot.extracted(output, file = "vn_darkveg_071621.txt", sample = "NC_DARKVEG")
+#' @export
 plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = F, method = "linear"){
   UNR <- function(){
     theme(text = element_text(color = "black", size = 15),
@@ -51,7 +51,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = F, meth
   numextract <- function(string){
     as.numeric(str_extract(string, "\\-*\\d+\\.*\\d*"))
   }
-  ghost <- filter(data, !str_detect(toupper(Sample), "CURVE") & !stringr::str_detect(toupper(Sample), "CHECK"))
+  ghost <- filter(data, !str_detect(toupper(Sample), "CURVE") & !str_detect(toupper(Sample), "CHECK"))
   ghost$Replicate <- as.numeric(ghost$Replicate)
   if(is.null(sample) & is.null(file) & std.curve == F){
     rando.group <- sample(unique(data$File_Name), size = 1)

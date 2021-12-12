@@ -12,10 +12,10 @@
 #' @param ci.meth Argument to specify whether to compare average ("avg") check standard AUC values, or individual ("indiv") check standard AUC values
 #' @keywords LiCor, Peak, CO2, gas, Li-Cor, extract
 #' @import tidyverse, lubridate
-#' @export
 #' @examples
 #' setwd(path.package("peak.gas"))
 #' output <- extract.peaks()
+#' @export
 extract.peaks <- function(cut.off = 2, method = "linear", standard.sum = F,
                           check.stand = F, check.alpha = .05, ci.meth = "avg",
                           verbose = F){
