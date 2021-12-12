@@ -22,6 +22,7 @@
 #' plot.extracted(output, sample = "NN_DARKVEG")
 #' plot.extracted(output, file = "vn_darkveg_071621.txt", sample = "NC_DARKVEG")
 #' @export
+
 plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = F, method = "linear"){
   UNR <- function(){
     theme(text = element_text(color = "black", size = 15),

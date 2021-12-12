@@ -26,6 +26,7 @@
 #' Plot.timeseries(test, file = "vn_veg_07292021.txt", sample = "NS_Veg", time.stop = "2021-08-02 12:54:00")
 #' Plot.timeseries(test, file = "vn_veg_07292021.txt", sample = "NS_Veg", time.start = "2021-08-02 12:56:00", time.stop = "2021-08-02 13:01:00")
 #' @export
+
 plot.timeseries <- function(data, file, sample = NULL, time.start = NULL, time.stop = NULL){
   UNR <- function(){
     theme(text = element_text(color = "black", size = 15),
