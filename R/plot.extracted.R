@@ -149,7 +149,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = F, meth
     R.2 <- as.numeric(asdf.2$adj.r.squared)
     form.2 <- data.frame(Y = Y.2, M = M.2, R = R.2)
     form2.2 <- paste0("Y = ", round(form.2$M, digits = 2), " * x", " + ", round(form.2$Y, digits = 2))
-    r.squared.2 <- paste0("adjusted R", "^", 2,  sep = "", " = ", round(form.2$R, digits = 4))
+    r.squared.2 <- paste0("adjusted R^2 = ", round(form.2$R, digits = 4))
     if(max(curv.2$standard) > max(check.2$standard)){
       ggplot()+
         geom_smooth(formula = y~x, data = curv.2, aes(x = standard, y = AUC_ppm),
@@ -207,7 +207,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = F, meth
                                                      y = (((max(log(AUC_ppm))-min(log(AUC_ppm)))*.75)+min(log(AUC_ppm))),
                                                      label = paste(form2, r.squared, sep = "\n"))) +
         ggtitle("Log Standard Curve for All Samples") +
-        xlab("log(Standard ppm)") +
+        xlab("log(Standard ppm)^2") +
         UNR()
     } else if(max(curv$standard) <= max(check$standard)){
       ggplot()+
@@ -222,7 +222,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = F, meth
                                                       y = (((max(log(AUC_ppm))-min(log(AUC_ppm)))*.75)+min(log(AUC_ppm))),
                                                       label = paste(form2, r.squared, sep = "\n"))) +
         ggtitle("Log Standard Curve for All Samples") +
-        xlab("log(Standard ppm)") +
+        xlab("log(Standard ppm)^2") +
         UNR()
     }
   } else if(!is.null(file) & is.null(sample) & std.curve == T & method == "log"){
@@ -237,7 +237,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = F, meth
     form.2 <- data.frame(Y = Y.2, M = M.2, R = R.2)
     form2.1 <- paste(round(form.2$M, digits = 2), "* log(x) +", round(form.2$Y, digits = 2))
     form2.2 <- paste0("Y = ", "e^(", form2.1, ")")
-    r.squared.2 <- paste0("adjusted R", "^", 2,  sep = "", " = ", round(form.2$R, digits = 4))
+    r.squared.2 <- paste0("adjusted R^2 = ", round(form.2$R, digits = 4))
     if(max(curv.2$standard) > max(check.2$standard)){
       ggplot()+
         geom_smooth(formula = y~x, data = curv.2, aes(x = log(standard)^2, y = log(AUC_ppm)),
@@ -251,7 +251,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = F, meth
                                                        y = (((max(log(AUC_ppm))-min(log(AUC_ppm)))*.75)+min(log(AUC_ppm))),
                                                        label = paste(form2.2, r.squared.2, sep = "\n"))) +
         ggtitle(paste0("Log Standard Curve for ", curv.2$File_Name)) +
-        xlab("log(Standard ppm)") +
+        xlab("log(Standard ppm)^2") +
         UNR()
     } else if(max(curv.2$standard) <= max(check.2$standard)){
       ggplot()+
@@ -266,7 +266,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = F, meth
                                                          y = (((max(log(AUC_ppm))-min(log(AUC_ppm)))*.75)+min(log(AUC_ppm))),
                                                          label = paste(form2.2, r.squared.2, sep = "\n"))) +
         ggtitle(paste0("Log Standard Curve for ", curv.2$File_Name)) +
-        xlab("log(Standard ppm)") +
+        xlab("log(Standard ppm)^2") +
         UNR()
     }
   }
