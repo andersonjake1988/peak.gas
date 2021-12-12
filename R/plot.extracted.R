@@ -8,7 +8,9 @@
 #' @param std.curve a logical argument that states whether the user wishes to look at the standard curve or not
 #' @param method Specify whether you want to plot the "linear" relationship or the "log" transformed relationship
 #' @keywords LiCor, Peak, CO2, Li-Cor, gas, plot
-#' @import tidyverse
+#' @import ggplot2
+#' @import dplyr
+#' @import stringr
 #' @examples
 #' setwd(path.package("peak.gas"))
 #' output <- extract.peaks()

@@ -11,7 +11,10 @@
 #' @param check.alpha The value (0-1) you want to accept for check standards deviation, lower numbers indicate the confidence interval increases.
 #' @param ci.meth Argument to specify whether to compare average ("avg") check standard AUC values, or individual ("indiv") check standard AUC values
 #' @keywords LiCor, Peak, CO2, gas, Li-Cor, extract
-#' @import tidyverse, lubridate
+#' @import dplyr
+#' @import tidyr
+#' @import lubridate
+#' @import stringr
 #' @examples
 #' setwd(path.package("peak.gas"))
 #' output <- extract.peaks()

@@ -8,7 +8,10 @@
 #' @param time.start option to specify when you want the plot to start
 #' @param time.stop option to specify when you want the plot to stop
 #' @keywords LiCor, Peak, CO2, Li-Cor, gas, plot
-#' @import tidyverse
+#' @import ggplot2
+#' @import dplyr
+#' @import lubridate
+#' @import stringr
 #' @examples
 #' setwd(path.package("peak.gas"))
 #' test <- timeseries.peaks()
