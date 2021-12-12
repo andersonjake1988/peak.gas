@@ -15,10 +15,10 @@
 #' @import tidyr
 #' @import lubridate
 #' @import stringr
+#' @export
 #' @examples
 #' setwd(path.package("peak.gas"))
 #' output <- extract.peaks()
-#' @export
 
 extract.peaks <- function(cut.off = 2, method = "linear", standard.sum = F,
                           check.stand = F, check.alpha = .05, ci.meth = "avg",
