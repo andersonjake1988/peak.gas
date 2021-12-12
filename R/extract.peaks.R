@@ -3,7 +3,7 @@
 #' This function provides user's of a LI-8100A Li-Cor Analyzer a simple way to extract and compile peak results from CO2 peak data.
 #' It will loop through a folder containing the text files that the Li-Cor Analyzer outputs, and compiles the results into a single R dataframe.
 #'
-#' 
+#'
 #' @param cut.off Cut off value used to define when the peak should start and end. Defaults to 2.
 #' @param method select regression method used for the standard curve, either "linear", or "log".
 #' @param standard.sum Specifies whether or not the user wants to output a summary of the standard curve statistics.
@@ -11,12 +11,12 @@
 #' @param check.alpha The value (0-1) you want to accept for check standards deviation, lower numbers indicate the confidence interval increases.
 #' @param ci.meth Argument to specify whether to compare average ("avg") check standard AUC values, or individual ("indiv") check standard AUC values
 #' @keywords LiCor, Peak, CO2, gas, Li-Cor, extract
-#' @import dplyr, tidyr, stringr, lubridate 
+#' @import tidyverse, lubridate
 #' @export
 #' @examples
 #' setwd(path.package("peak.gas"))
 #' output <- extract.peaks()
-extract.peaks <- function(cut.off = 2, method = "linear", standard.sum = F, 
+extract.peaks <- function(cut.off = 2, method = "linear", standard.sum = F,
                           check.stand = F, check.alpha = .05, ci.meth = "avg",
                           verbose = F){
   if(method != "linear" & method != "log"){
@@ -193,7 +193,7 @@ extract.peaks <- function(cut.off = 2, method = "linear", standard.sum = F,
         if(ci.meth == "avg"){
           ot2 <- output.2 %>%
             group_by(File_Name, Standard) %>%
-            summarize(mean.AUC = mean(AUC)) 
+            summarize(mean.AUC = mean(AUC))
           ot3 <- full_join(ot1, ot2, by = c("File_Name", "Standard"))
           ot3$File_Name <- factor(ot3$File_Name, levels = preserve.order)
           ot3 <- arrange(ot3, File_Name)
@@ -220,7 +220,7 @@ extract.peaks <- function(cut.off = 2, method = "linear", standard.sum = F,
                 cierr[i,] <- select(ot4[i,], File_Name, Standard, ci.low, ci.high, mean.AUC)
               } else if(ot4['checkci'][i,] == TRUE){
                 next
-              }  
+              }
             } else if(ci.meth == "indiv"){
               if(is.na(ot4['checkci'][i,])){
                 naerr[i,] <- select(ot4[i,], File_Name, Sample, Order_Run, AUC)
@@ -241,7 +241,7 @@ extract.peaks <- function(cut.off = 2, method = "linear", standard.sum = F,
                                      "\tCI range: ", round(cierr$ci.low[i]), " to ", round(cierr$ci.high[i]), "\tAUC: ", round(cierr$mean.AUC[i], 2)))
               }
               if(ci.meth == "indiv"){
-                warning(call. = F, c("File: ", cierr$File_Name[i], "\tSample: ", cierr$Sample[i], "\tOrder_Run: ", cierr$Order_Run[i], 
+                warning(call. = F, c("File: ", cierr$File_Name[i], "\tSample: ", cierr$Sample[i], "\tOrder_Run: ", cierr$Order_Run[i],
                                      "\tCI range: ", round(cierr$ci.low[i]), " to ", round(cierr$ci.high[i]), "\tAUC: ", round(cierr$AUC[i], 2)))
               }
             }
@@ -329,7 +329,7 @@ extract.peaks <- function(cut.off = 2, method = "linear", standard.sum = F,
         if(ci.meth == "avg"){
           ot2 <- output.2 %>%
             group_by(File_Name, Standard) %>%
-            summarize(mean.AUC = mean(log(AUC))) 
+            summarize(mean.AUC = mean(log(AUC)))
           ot3 <- full_join(ot1, ot2, by = c("File_Name", "Standard"))
           ot3$File_Name <- factor(ot3$File_Name, levels = preserve.order)
           ot3 <- arrange(ot3, File_Name)
@@ -357,7 +357,7 @@ extract.peaks <- function(cut.off = 2, method = "linear", standard.sum = F,
                 cierr[i,] <- select(ot4[i,], File_Name, Standard, ci.low, ci.high, mean.AUC)
               } else if(ot4['checkci'][i,] == TRUE){
                 next
-              }  
+              }
             } else if(ci.meth == "indiv"){
               if(is.na(ot4['checkci'][i,])){
                 naerr[i,] <- select(ot4[i,], File_Name, Sample, Order_Run, AUC)
@@ -378,7 +378,7 @@ extract.peaks <- function(cut.off = 2, method = "linear", standard.sum = F,
                                      "\tCI range: ", round(cierr$ci.low[i],2), " to ", round(cierr$ci.high[i],2), "\tAUC: ", round(cierr$mean.AUC[i], 2)))
               }
               if(ci.meth == "indiv"){
-                warning(call. = F, c("File: ", cierr$File_Name[i], "\tSample: ", cierr$Sample[i], "\tOrder_Run: ", cierr$Order_Run[i], 
+                warning(call. = F, c("File: ", cierr$File_Name[i], "\tSample: ", cierr$Sample[i], "\tOrder_Run: ", cierr$Order_Run[i],
                                      "\tCI range: ", round(cierr$ci.low[i],2), " to ", round(cierr$ci.high[i],2), "\tAUC: ", round(cierr$AUC[i], 2)))
               }
             }
@@ -447,7 +447,7 @@ extract.peaks <- function(cut.off = 2, method = "linear", standard.sum = F,
     output <- separate(output, Sample, c("Sample", "Replicate"), sep = ". ")
     if(standard.sum == T){
       View(standard.summary.stats)
-    } 
+    }
     return(output)
   } else {
     print(' ')

@@ -3,7 +3,7 @@
 #' This function will loop through a folder containing text file outputs to combine and assign sample names, outputing a single timeseries
 #'
 #' @keywords LiCor, Peak, CO2, Li-Cor, gas, plot
-#' @import dplyr
+#' @import tidyverse
 #' @export
 #' @examples
 #' setwd(path.package("peak.gas"))
@@ -35,5 +35,5 @@ timeseries.peaks <- function(){
   output.raw$Time <- lubridate::as_datetime(output.raw$Time)
   output_final <- output.raw[, c(5,1,3,4)]
   class(output_final) <- c("timeseries", class(output_final))
-  return(output_final) 
+  return(output_final)
 }

@@ -1,4 +1,4 @@
-#' A Plotting function used to plot peaks in a time series 
+#' A Plotting function used to plot peaks in a time series
 #'
 #' This function provides a plotting framework for exploring the data output from the timeseries.peaks() function
 #'
@@ -8,7 +8,7 @@
 #' @param time.start option to specify when you want the plot to start
 #' @param time.stop option to specify when you want the plot to stop
 #' @keywords LiCor, Peak, CO2, Li-Cor, gas, plot
-#' @import dplyr
+#' @import tidyverse
 #' @export
 #' @examples
 #' setwd(path.package("peak.gas"))
