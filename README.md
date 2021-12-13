@@ -17,13 +17,13 @@ processing function is accompanied by a plotting function
 -   extract.peaks(cut.off = 2, method = “linear”, standard.sum = F,
     check.stand = F, check.alpha = .05, ci.meth = “avg”, verbose = F)
 
--   plot(extract.peaks output, file = NULL, sample = NULL, std.curve =
-    F, method = “linear”)
+    -   plot(extract.peaks output, file = NULL, sample = NULL, std.curve
+        = F, method = “linear”)
 
 -   timeseries.peaks()
 
--   plot(timeseries.peaks output, file, sample = NULL, time.start =
-    NULL, time.stop = NULL)
+    -   plot(timeseries.peaks output, file, sample = NULL, time.start =
+        NULL, time.stop = NULL)
 
 # File formatting
 
@@ -97,13 +97,23 @@ function](https://github.com/andersonjake1988/peak.gas/blob/main/inst/Screenshot
 
 -   **cut.off:** this argument sets the value to indicate the start and
     the end each peak. (essentially where to set the baseline of the
-    peaks)
+    peaks). Defaults to 2
 -   **method:** this argument specifies whether to use a ‘linear’
     equation during the standard curve calibration or a ‘log’
-    transformed equation.
+    transformed equation. Defaults to “linear”
 -   **standard.sum:** this argument specifies whether or not to output a
     table containing standard curve statistics along with the data
-    output or not.
+    output or not. Defaults to FALSE
+-   **check.stand:** A logical argument stating whether or not to
+    compare “check” standards to the standard curve. Defaults to FALSE
+-   **check.alpha:** The value (0-1) to accept for check standard
+    deviation, lower numbers indicate the confidence interval increases.
+    Defaults to .05
+-   **ci.meth** Argument to specify whether to compare average (“avg”)
+    check standard AUC values, or individual (“indiv”) check standard
+    AUC values. Defaults to “avg”
+-   **verbose** A logical argument stating whether or not to display all
+    full function processing information. Defaults to TRUE
 
 ### Example of how to use function
 
@@ -135,14 +145,14 @@ head(output)
     ## # ... with 3 more variables: Time_Peak_End <dttm>, Timespan_(s) <dbl>,
     ## #   AUC_ppm <dbl>
 
-## Plot.extracted(data, file = NULL, sample = NULL, std.curve = F, method = “linear” or “log”)
+## plot(extract.peaks output, file = NULL, sample = NULL, std.curve = F, method = “linear” or “log”)
 
 ### Description
 
-This function provides a plotting framework for exploring the data
-output from the extract.peaks() function
+peak.gas provides a plotting framework for exploring the data output
+from the extract.peaks() function
 
-### Arguments of Plot.extracted()
+### Arguments of plot() call:
 
 1.  **data:** the output from the extract.peaks() function
 2.  **file:** select a specific file to plot
@@ -154,7 +164,7 @@ output from the extract.peaks() function
 ### Examples
 
 ``` r
-# Pulls up a random plot from output
+# Pulls up a random plot from extract.peaks() output
 plot(output)
 ```
 
@@ -238,11 +248,14 @@ head(test)
     ## 50 vn_clear_071621.txt 300curve 2021-07-16 11:31:48 -0.88
     ## 52 vn_clear_071621.txt 300curve 2021-07-16 11:31:49 -0.87
 
-## Plot.timeseries(data, file, sample = NULL, time.start = NULL, time.stop = NULL)
+## plot(timeseries.peaks output, file, sample = NULL, time.start = NULL, time.stop = NULL)
 
 ### Description
 
-### Arguments
+peak.gas provides a plotting framework for exploring the data output
+from the timeseries.peaks() function
+
+### Arguments for plot() call:
 
 1.  **data:** the output from the timeseries.peaks() function
 2.  **file:** select a specific file to plot
