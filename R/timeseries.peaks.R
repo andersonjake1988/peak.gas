@@ -11,7 +11,12 @@
 #' output <- timeseries.peaks()
 #' @export
 
-timeseries.peaks <- function(){
+timeseries.peaks <- function(directory = choose.dir(), verbose = T){
+  setwd(directory)
+  if(verbose == T){
+    message("Working directory set to:")
+    message(getwd())
+  }
   filelist <- list.files(pattern = c(".txt", ".TXT"))
   output.raw <- data.frame()
   print("Looping through Folder:")

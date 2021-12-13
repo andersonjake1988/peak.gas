@@ -17,12 +17,16 @@
 #' @import stringr
 #' @export
 #' @examples
-#' setwd(path.package("peak.gas"))
-#' output <- extract.peaks()
+#' output <- extract.peaks(directory = path.package("peak.gas"))
 
-extract.peaks <- function(cut.off = 2, method = "linear", standard.sum = F,
+extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linear", standard.sum = F,
                           check.stand = F, check.alpha = .05, ci.meth = "avg",
-                          verbose = F){
+                          verbose = T){
+  setwd(directory)
+  if(verbose == T){
+    message("Working directory set to:")
+    message(getwd())
+  }
   if(method != "linear" & method != "log"){
     stop(c("method argument must be either 'linear' or 'log' not ", method))
   }
@@ -465,3 +469,6 @@ extract.peaks <- function(cut.off = 2, method = "linear", standard.sum = F,
     return(output_final)
   }
 }
+
+
+
