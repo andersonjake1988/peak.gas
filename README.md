@@ -64,7 +64,7 @@ library(peak.gas)
 
 # Function usage guide
 
-## extract.peaks(cut.off = 2, method = “linear” or “log”, standard.sum = F)
+## extract.peaks(directory = choose.dir(), cut.off = 2, method = “linear” or “log”, standard.sum = F, check.stand = F, check.alpha = .05, ci.meth = “avg”, verbose = T)
 
 ### Description
 
@@ -95,6 +95,8 @@ function](https://github.com/andersonjake1988/peak.gas/blob/main/inst/Screenshot
 
 ### Arguments of extract.peaks
 
+-   **directory** The path to the directory (folder) that the function
+    will process. Defaults to user selection window
 -   **cut.off:** this argument sets the value to indicate the start and
     the end each peak. (essentially where to set the baseline of the
     peaks). Defaults to 2
@@ -113,7 +115,7 @@ function](https://github.com/andersonjake1988/peak.gas/blob/main/inst/Screenshot
     check standard AUC values, or individual (“indiv”) check standard
     AUC values. Defaults to “avg”
 -   **verbose** A logical argument stating whether or not to display all
-    full function processing information. Defaults to TRUE
+    function processing information. Defaults to TRUE
 
 ### Example of how to use function
 
@@ -145,7 +147,7 @@ head(output)
     ## # ... with 3 more variables: Time_Peak_End <dttm>, Timespan_(s) <dbl>,
     ## #   AUC_ppm <dbl>
 
-## plot(extract.peaks output, file = NULL, sample = NULL, std.curve = F, method = “linear” or “log”)
+## plot(extract.peaks output, file = NULL, sample = NULL, std.curve = F, method = “linear”)
 
 ### Description
 
@@ -155,11 +157,11 @@ from the extract.peaks() function
 ### Arguments of plot() call:
 
 1.  **data:** the output from the extract.peaks() function
-2.  **file:** select a specific file to plot
-3.  **sample:** select a specific sample to plot
-4.  **std.curve:** plot the standard curve data
+2.  **file:** select a specific file to plot. Defaults to NULL
+3.  **sample:** select a specific sample to plot. Defaults to NULL
+4.  **std.curve:** plot the standard curve data. Defaults to FALSE
 5.  **method:** and option to plot the *linear* standard curve or the
-    *log* standard curve
+    *log* standard curve. Defaults to ‘linear’
 
 ### Examples
 
@@ -217,7 +219,7 @@ plot(output, file = "vn_clear_07292021.txt", std.curve = T)
 
 ------------------------------------------------------------------------
 
-## timeseries.peaks()
+## timeseries.peaks(directory = choose.dir(), verbose = T)
 
 ### Description
 
@@ -225,6 +227,13 @@ This is a simplified version of `extract.peaks()` this function will
 transfer over the sample name and combine all the text files into a
 single timeseries dataframe. *There are no arguments needed for this
 function.*
+
+### Arguments of timeseries.peaks
+
+-   **directory** The path to the directory (folder) that the function
+    will process. Defaults to user selection window
+-   **verbose** A logical argument stating whether or not to display all
+    function processing information. Defaults to TRUE
 
 ### Examples
 
@@ -259,9 +268,11 @@ from the timeseries.peaks() function
 
 1.  **data:** the output from the timeseries.peaks() function
 2.  **file:** select a specific file to plot
-3.  **sample:** select a specific sample to plot
-4.  **time.start:** plot data appearing after the value entered
-5.  **time.stop:** plot data appearing before the value entered
+3.  **sample:** select a specific sample to plot. Defaults to NULL
+4.  **time.start:** plot data appearing after the value entered.
+    Defaults to NULL
+5.  **time.stop:** plot data appearing before the value entered.
+    Defaults to NULL
 
 ### Examples
 

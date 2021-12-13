@@ -44,3 +44,5 @@ timeseries.peaks <- function(directory = choose.dir(), verbose = T){
   class(output_final) <- c("timeseries", class(output_final))
   return(output_final)
 }
+
+
