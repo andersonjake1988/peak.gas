@@ -62,7 +62,7 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
   progress_bar <- txtProgressBar(min = 0, max = length(filelist), style = 3)
   for(a in 1:length(filelist)){
     setTxtProgressBar(progress_bar, a)
-    b <- read.table(filelist[a], header = T, sep = "\t", fill = T, strip.white = T, check.names = F)
+    b <- read.table(filelist[a], header = TRUE, sep = "\t", fill = TRUE, strip.white = TRUE, check.names = FALSE)
     if(length(b) != 3){
       print(' ')
       stop(c(filelist[a], ' is not formatted properly, 3 columns are required.'))
@@ -72,7 +72,7 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
     data.2 <- filter(data.1, Test != "--------------------------------------------------------------")
     data.3 <- data.2
     for(i in 1:nrow(data.2)){
-      if(is.na(data.2[i,4])==T){
+      if(is.na(data.2[i,4])==TRUE){
         data.3[i,1] <- as.character(data.2[i,2])
       } else {
         next
@@ -102,21 +102,21 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
     test.2 <- arrange(test.2, Time)
     r <- 0
     for(i in 1:(length(test.2$Value)-1)){
-      if(test.2$Value[i] == T & test.2$Value[i+1] == T){
+      if(test.2$Value[i] == TRUE & test.2$Value[i+1] == TRUE){
         test.2$Replicate[i] <- r
-      } else if(test.2$Value[i] == F & test.2$Value[i+1] == T){
+      } else if(test.2$Value[i] == FALSE & test.2$Value[i+1] == TRUE){
         r <- r + 1
-      } else if(test.2$Value[i] == F & test.2$Value[i+1] == F){
+      } else if(test.2$Value[i] == FALSE & test.2$Value[i+1] == FALSE){
         test.2$Replicate[i] <- NA
       } else {
         test.2$Replicate[i] <- r
       }
     }
     for(i in 2:(length(test.2$Value)-1)){
-      if(test.2$Value[i] == F & test.2$Value[i+1] == T){
+      if(test.2$Value[i] == FALSE & test.2$Value[i+1] == TRUE){
         test.2$Peaks[i] <- cut.off
         test.2$Replicate[i] <- test.2$Replicate[i+1]
-      } else if(test.2$Value[i] == F & test.2$Value[i-1] == T){
+      } else if(test.2$Value[i] == FALSE & test.2$Value[i-1] == TRUE){
         test.2$Peaks[i] <- cut.off
         test.2$Replicate[i] <- test.2$Replicate[i-1]
       } else {
@@ -131,11 +131,11 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
     for(i in 1:(length(test.3$Peaks)-1)){
       if(test.3$Replicate[i] == test.3$Replicate[i+1]){
         time <- as.numeric(difftime(test.3$Time[i+1], test.3$Time[i]))
-        if(test.3$Value[i] == F & test.3$Value[i+1] == T){
+        if(test.3$Value[i] == FALSE & test.3$Value[i+1] == TRUE){
           test.3$Area[i] <- (time * diff[i+1])/2
-        } else if(test.3$Value[i] == F & test.3$Value[i+1] == F){
+        } else if(test.3$Value[i] == FALSE & test.3$Value[i+1] == FALSE){
           test.3$Area[i] <- (time * diff[i])/2
-        } else if(test.3$Value[i] == T){
+        } else if(test.3$Value[i] == TRUE){
           test.3$Area[i] <- (peaks[i] * time) + ((time * diff[i+1])/2)
         }
       } else{
@@ -195,7 +195,7 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
         R <- asdf$r.squared
         curve[i,] <- c(unique(as.character(output.1$File_Name))[i], Y, M, R)
       }
-      if(check.stand == T){
+      if(check.stand == TRUE){
         ot1 <- output.1 %>%
           group_by(File_Name, Standard) %>%
           summarize(ci.low = mean(low), ci.high = mean(high))
@@ -243,28 +243,28 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
           cierr <- na.omit(cierr)
           naerr <- na.omit(naerr)
           if(nrow(cierr) != 0){
-            warning(call. = F, c("\n\nCheck standards deviate from the ", 100*(1 - check.alpha), "%", " confidence interval in the following Samples:\n"))
+            warning(call. = FALSE, c("\n\nCheck standards deviate from the ", 100*(1 - check.alpha), "%", " confidence interval in the following Samples:\n"))
             for(i in 1:nrow(cierr)){
               if(ci.meth == "avg"){
-                warning(call. = F, c("File: ", cierr$File_Name[i], "\tStandard: ", cierr$Standard[i], "check",
+                warning(call. = FALSE, c("File: ", cierr$File_Name[i], "\tStandard: ", cierr$Standard[i], "check",
                                      "\tCI range: ", round(cierr$ci.low[i]), " to ", round(cierr$ci.high[i]), "\tAUC: ", round(cierr$mean.AUC[i], 2)))
               }
               if(ci.meth == "indiv"){
-                warning(call. = F, c("File: ", cierr$File_Name[i], "\tSample: ", cierr$Sample[i], "\tOrder_Run: ", cierr$Order_Run[i],
+                warning(call. = FALSE, c("File: ", cierr$File_Name[i], "\tSample: ", cierr$Sample[i], "\tOrder_Run: ", cierr$Order_Run[i],
                                      "\tCI range: ", round(cierr$ci.low[i]), " to ", round(cierr$ci.high[i]), "\tAUC: ", round(cierr$AUC[i], 2)))
               }
             }
           }
           if(nrow(naerr) != 0){
-            warning(call. = F, "\n\nNA values for confidence interval due to missing standard 'curves' in the following Samples:\n")
+            warning(call. = FALSE, "\n\nNA values for confidence interval due to missing standard 'curves' in the following Samples:\n")
             if(ci.meth == "avg"){
               for(i in 1:nrow(naerr)){
-                warning(call. = F, c("File: ", naerr$File_Name[i], "\tStandard: ", naerr$Standard[i], "check", "\tAUC: ", round(naerr$mean.AUC[i], 2)))
+                warning(call. = FALSE, c("File: ", naerr$File_Name[i], "\tStandard: ", naerr$Standard[i], "check", "\tAUC: ", round(naerr$mean.AUC[i], 2)))
               }
             }
             if(ci.meth == "indiv"){
               for(i in 1:nrow(naerr)){
-                warning(call. = F, c("File: ", naerr$File_Name[i], "\tSample: ", naerr$Sample[i], "\tOrder_Run:", naerr$Order_Run[i], "\tAUC: ", round(naerr$AUC[i], 2)))
+                warning(call. = FALSE, c("File: ", naerr$File_Name[i], "\tSample: ", naerr$Sample[i], "\tOrder_Run:", naerr$Order_Run[i], "\tAUC: ", round(naerr$AUC[i], 2)))
               }
             }
           }
@@ -289,9 +289,9 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
       colnames(yes.curve) <- c("File_Name", "Y.intercept", "Slope", "R.squared")
       for(i in 1:length(curve.2$File_Name)){
         for(j in 1:length(curve$File_Name)){
-          if(curve.2$File_Name[i] == curve$File_Name[j] & curve.2$curve[i]==T){
+          if(curve.2$File_Name[i] == curve$File_Name[j] & curve.2$curve[i]==TRUE){
             yes.curve[i,] <- curve[j,]
-          } else if(curve.2$curve[i]==F){
+          } else if(curve.2$curve[i]==FALSE){
             yes.curve[i,] <- c(curve.2$File_Name[i], rep(NA,3))
           }
         }
@@ -331,7 +331,7 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
         R <- asdf$r.squared
         curve[i,] <- c(unique(as.character(output.1$File_Name))[i], Y, M, R)
       }
-      if(check.stand == T){
+      if(check.stand == TRUE){
         ot1 <- output.1 %>%
           group_by(File_Name, Standard) %>%
           summarize(ci.low = mean(low), ci.high = mean(high))
@@ -380,28 +380,28 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
           cierr <- na.omit(cierr)
           naerr <- na.omit(naerr)
           if(nrow(cierr) != 0){
-            warning(call. = F, c("\n\nCheck standards deviate from the ", 100*(1 - check.alpha), "%", " confidence interval in the following Samples:\n"))
+            warning(call. = FALSE, c("\n\nCheck standards deviate from the ", 100*(1 - check.alpha), "%", " confidence interval in the following Samples:\n"))
             for(i in 1:nrow(cierr)){
               if(ci.meth == "avg"){
-                warning(call. = F, c("File: ", cierr$File_Name[i], "\tStandard: ", cierr$Standard[i], "check",
+                warning(call. = FALSE, c("File: ", cierr$File_Name[i], "\tStandard: ", cierr$Standard[i], "check",
                                      "\tCI range: ", round(cierr$ci.low[i],2), " to ", round(cierr$ci.high[i],2), "\tAUC: ", round(cierr$mean.AUC[i], 2)))
               }
               if(ci.meth == "indiv"){
-                warning(call. = F, c("File: ", cierr$File_Name[i], "\tSample: ", cierr$Sample[i], "\tOrder_Run: ", cierr$Order_Run[i],
+                warning(call. = FALSE, c("File: ", cierr$File_Name[i], "\tSample: ", cierr$Sample[i], "\tOrder_Run: ", cierr$Order_Run[i],
                                      "\tCI range: ", round(cierr$ci.low[i],2), " to ", round(cierr$ci.high[i],2), "\tAUC: ", round(cierr$AUC[i], 2)))
               }
             }
           }
           if(nrow(naerr) != 0){
-            warning(call. = F, "\n\nNA values for confidence interval due to missing standard 'curves' in the following Samples:\n")
+            warning(call. = FALSE, "\n\nNA values for confidence interval due to missing standard 'curves' in the following Samples:\n")
             if(ci.meth == "avg"){
               for(i in 1:nrow(naerr)){
-                warning(call. = F, c("File: ", naerr$File_Name[i], "\tStandard: ", naerr$Standard[i], "check", "\tAUC: ", round(naerr$mean.AUC[i], 2)))
+                warning(call. = FALSE, c("File: ", naerr$File_Name[i], "\tStandard: ", naerr$Standard[i], "check", "\tAUC: ", round(naerr$mean.AUC[i], 2)))
               }
             }
             if(ci.meth == "indiv"){
               for(i in 1:nrow(naerr)){
-                warning(call. = F, c("File: ", naerr$File_Name[i], "\tSample: ", naerr$Sample[i], "\tOrder_Run:", naerr$Order_Run[i], "\tAUC: ", round(naerr$AUC[i], 2)))
+                warning(call. = FALSE, c("File: ", naerr$File_Name[i], "\tSample: ", naerr$Sample[i], "\tOrder_Run:", naerr$Order_Run[i], "\tAUC: ", round(naerr$AUC[i], 2)))
               }
             }
           }
@@ -422,9 +422,9 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
       colnames(yes.curve) <- c("File_Name", "Y.intercept", "Slope", "R.squared")
       for(i in 1:length(curve.2$File_Name)){
         for(j in 1:length(curve$File_Name)){
-          if(curve.2$File_Name[i] == curve$File_Name[j] & curve.2$curve[i]==T){
+          if(curve.2$File_Name[i] == curve$File_Name[j] & curve.2$curve[i]==TRUE){
             yes.curve[i,] <- curve[j,]
-          } else if(curve.2$curve[i]==F){
+          } else if(curve.2$curve[i]==FALSE){
             yes.curve[i,] <- c(curve.2$File_Name[i], rep(NA,3))
           }
         }
@@ -454,7 +454,7 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
       summarise(Mean_ppm = mean(AUC_ppm))
     standard.summary.stats <- left_join(sum.stat, sum.stat2, by = c("File_Name", "Standard"))
     output <- separate(output, Sample, c("Sample", "Replicate"), sep = ". ")
-    if(standard.sum == T){
+    if(standard.sum == TRUE){
       View(standard.summary.stats)
     }
     output_final <- as_tibble(output)

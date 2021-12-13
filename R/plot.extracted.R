@@ -55,7 +55,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = FALSE, 
   }
   ghost <- filter(data, !str_detect(toupper(Sample), "CURVE") & !str_detect(toupper(Sample), "CHECK"))
   ghost$Replicate <- as.numeric(ghost$Replicate)
-  if(is.null(sample) & is.null(file) & std.curve == F){
+  if(is.null(sample) & is.null(file) & std.curve == FALSE){
     rando.group <- sample(unique(data$File_Name), size = 1)
     samp.run <- sample(unique(filter(ghost, File_Name == rando.group)$Order_Run), size = 1)
     verify <- filter(ghost, File_Name == rando.group, Order_Run == samp.run)
@@ -65,7 +65,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = FALSE, 
       ggtitle(paste0("File:  ", verify$File_Name, "\nSample:  ", tolower(verify$Sample), "\nOrder Run:  ", verify$Order_Run)) +
       geom_text(label = verify$Replicate, nudge_y = (mean.ppm/log(verify$AUC_ppm)*.40))+
       UNR()
-  } else if(!is.null(file) & is.null(sample) & std.curve == F){
+  } else if(!is.null(file) & is.null(sample) & std.curve == FALSE){
     filt <- filter(ghost, File_Name == file)
     samp.run <- sample(unique(filt$Order_Run), size = 1)
     verify.1 <- filter(filt, Order_Run == samp.run)
@@ -75,7 +75,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = FALSE, 
       ggtitle(paste0("File:  ", verify.1$File_Name, "\nSample:  ", tolower(verify.1$Sample), "\nOrder Run:  ", verify.1$Order_Run)) +
       geom_text(label = verify.1$Replicate, nudge_y = (mean.ppm/log(verify.1$AUC_ppm)*.40))+
       UNR()
-  } else if(is.null(file) & !is.null(sample) & std.curve == F){
+  } else if(is.null(file) & !is.null(sample) & std.curve == FALSE){
     samp <- filter(data, toupper(Sample) == toupper(sample))
     samp2 <- filter(samp, File_Name == sample(unique(File_Name), 1))
     samp.run <- sample(unique(samp2$Order_Run), size = 1)
@@ -86,7 +86,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = FALSE, 
       ggtitle(paste0("File:  ", verify.2$File_Name, "\nSample:  ", tolower(verify.2$Sample), "\nOrder Run:  ", verify.2$Order_Run)) +
       geom_text(label = verify.2$Replicate, nudge_y = (mean.ppm/log(verify.2$AUC_ppm)*.40))+
       UNR()
-  } else if(!is.null(file) & !is.null(sample) & std.curve == F){
+  } else if(!is.null(file) & !is.null(sample) & std.curve == FALSE){
     verify.3 <- filter(ghost, File_Name == file, toupper(Sample) == toupper(sample))
     mean.ppm <- mean(verify.3$AUC_ppm)
     ggplot(verify.3, aes(x = Time_Peak_Start, y = AUC_ppm)) +
@@ -94,7 +94,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = FALSE, 
       ggtitle(paste0("File:  ", verify.3$File_Name, "\nSample:  ", tolower(verify.3$Sample), "\nOrder Run:  ", verify.3$Order_Run)) +
       geom_text(label = verify.3$Replicate, nudge_y = (mean.ppm/log(verify.3$AUC_ppm)*.40))+
       UNR()
-  } else if(is.null(file) & is.null(sample) & std.curve == T & method == "linear"){
+  } else if(is.null(file) & is.null(sample) & std.curve == TRUE & method == "linear"){
     curv <- filter(data, str_detect(toupper(Sample), "CURVE")) %>%
       mutate(standard = numextract(Sample), .before = 3)
     check <- filter(data, str_detect(toupper(Sample), "CHECK") )%>%
@@ -109,7 +109,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = FALSE, 
     if(max(curv$standard) > max(check$standard)){
       ggplot()+
         geom_smooth(formula = y~x, data = curv, aes(x = standard, y = AUC_ppm),
-                             method = lm, se = T, lwd = 1, color = "red", fullrange = T, fill = "dodgerblue") +
+                             method = lm, se = TRUE, lwd = 1, color = "red", fullrange = TRUE, fill = "dodgerblue") +
         geom_point(data = check, aes(x = standard, y = AUC_ppm, fill = "Check"), size = 4, shape = 21, alpha = .5) +
         geom_point(data = curv, aes(x = standard, y = AUC_ppm, fill = "Curve"), size = 3, shape = 24, alpha = .5) +
         scale_fill_manual(name = "Standard", values = c("grey70", "darkblue"), guide = guide_legend(override.aes = list(
@@ -124,7 +124,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = FALSE, 
     } else if(max(curv$standard) <= max(check$standard)){
       ggplot()+
         geom_smooth(formula = y~x, data = curv, aes(x = standard, y = AUC_ppm),
-                             method = lm, se = T, lwd = 1, color = "red", fullrange = T, fill = "dodgerblue") +
+                             method = lm, se = TRUE, lwd = 1, color = "red", fullrange = TRUE, fill = "dodgerblue") +
         geom_point(data = check, aes(x = standard, y = AUC_ppm, fill = "Check"), size = 4, shape = 21, alpha = .5) +
         geom_point(data = curv, aes(x = standard, y = AUC_ppm, fill = "Curve"), size = 3, shape = 24, alpha = .5) +
         scale_fill_manual(name = "Standard", values = c("grey70", "darkblue"), guide = guide_legend(override.aes = list(
@@ -137,7 +137,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = FALSE, 
         xlab("Standard ppm") +
         UNR()
     }
-  } else if(!is.null(file) & is.null(sample) & std.curve == T & method == "linear"){
+  } else if(!is.null(file) & is.null(sample) & std.curve == TRUE & method == "linear"){
     curv.2 <- filter(data, str_detect(toupper(Sample), "CURVE"), File_Name == file) %>%
       mutate(standard = numextract(Sample), .before = 3)
     check.2 <- filter(data, str_detect(toupper(Sample), "CHECK"), File_Name == file)%>%
@@ -152,7 +152,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = FALSE, 
     if(max(curv.2$standard) > max(check.2$standard)){
       ggplot()+
         geom_smooth(formula = y~x, data = curv.2, aes(x = standard, y = AUC_ppm),
-                             method = lm, se = T, lwd = 1, color = "red", fullrange = T, fill = "dodgerblue") +
+                             method = lm, se = TRUE, lwd = 1, color = "red", fullrange = TRUE, fill = "dodgerblue") +
         geom_point(data = check.2, aes(x = standard, y = AUC_ppm, fill = "Check"), size = 4, shape = 21, alpha = .5) +
         geom_point(data = curv.2, aes(x = standard, y = AUC_ppm, fill = "Curve"), size = 3, shape = 24, alpha = .5) +
         scale_fill_manual(name = "Standard", values = c("grey70", "darkblue"), guide = guide_legend(override.aes = list(
@@ -167,7 +167,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = FALSE, 
     } else if(max(curv.2$standard) <= max(check.2$standard)){
       ggplot()+
         geom_smooth(formula = y~x, data = curv.2, aes(x = standard, y = AUC_ppm),
-                             method = lm, se = T, lwd = 1, color = "red", fullrange = T, fill = "dodgerblue") +
+                             method = lm, se = TRUE, lwd = 1, color = "red", fullrange = TRUE, fill = "dodgerblue") +
         geom_point(data = check.2, aes(x = standard, y = AUC_ppm, fill = "Check"), size = 4, shape = 21, alpha = .5) +
         geom_point(data = curv.2, aes(x = standard, y = AUC_ppm, fill = "Curve"), size = 3, shape = 24, alpha = .5) +
         scale_fill_manual(name = "Standard", values = c("grey70", "darkblue"), guide = guide_legend(override.aes = list(
@@ -180,7 +180,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = FALSE, 
         xlab("Standard ppm") +
         UNR()
     }
-  }else if(is.null(file) & is.null(sample) & std.curve == T & method == "log"){
+  }else if(is.null(file) & is.null(sample) & std.curve == TRUE & method == "log"){
     curv <- filter(data, str_detect(toupper(Sample), "CURVE")) %>%
       mutate(standard = numextract(Sample), .before = 3)
     check <- filter(data, str_detect(toupper(Sample), "CHECK") )%>%
@@ -196,7 +196,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = FALSE, 
     if(max(curv$standard) > max(check$standard)){
       ggplot()+
         geom_smooth(formula = y~x, data = curv, aes(x = log(standard)^2, y = log(AUC_ppm)),
-                             method = lm, se = T, lwd = 1, color = "red", fullrange = T, fill = "dodgerblue") +
+                             method = lm, se = TRUE, lwd = 1, color = "red", fullrange = TRUE, fill = "dodgerblue") +
         geom_point(data = check, aes(x = log(standard)^2, y = log(AUC_ppm), fill = "Check"), size = 4, shape = 21, alpha = .5) +
         geom_point(data = curv, aes(x = log(standard)^2, y = log(AUC_ppm), fill = "Curve"), size = 3, shape = 24, alpha = .5) +
         scale_fill_manual(name = "Standard", values = c("grey70", "darkblue"), guide = guide_legend(override.aes = list(
@@ -211,7 +211,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = FALSE, 
     } else if(max(curv$standard) <= max(check$standard)){
       ggplot()+
         geom_smooth(formula = y~x, data = curv, aes(x = log(standard)^2, y = log(AUC_ppm)),
-                             method = lm, se = T, lwd = 1, color = "red", fullrange = T, fill = "dodgerblue") +
+                             method = lm, se = TRUE, lwd = 1, color = "red", fullrange = TRUE, fill = "dodgerblue") +
         geom_point(data = check, aes(x = log(standard)^2, y = log(AUC_ppm), fill = "Check"), size = 4, shape = 21, alpha = .5) +
         geom_point(data = curv, aes(x = log(standard)^2, y = log(AUC_ppm), fill = "Curve"), size = 3, shape = 24, alpha = .5) +
         scale_fill_manual(name = "Standard", values = c("grey70", "darkblue"), guide = guide_legend(override.aes = list(
@@ -224,7 +224,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = FALSE, 
         xlab("log(Standard ppm)^2") +
         UNR()
     }
-  } else if(!is.null(file) & is.null(sample) & std.curve == T & method == "log"){
+  } else if(!is.null(file) & is.null(sample) & std.curve == TRUE & method == "log"){
     curv.2 <- filter(data, str_detect(toupper(Sample), "CURVE"), File_Name == file) %>%
       mutate(standard = numextract(Sample), .before = 3)
     check.2 <- filter(data, str_detect(toupper(Sample), "CHECK"), File_Name == file)%>%
@@ -240,7 +240,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = FALSE, 
     if(max(curv.2$standard) > max(check.2$standard)){
       ggplot()+
         geom_smooth(formula = y~x, data = curv.2, aes(x = log(standard)^2, y = log(AUC_ppm)),
-                             method = lm, se = T, lwd = 1, color = "red", fullrange = T, fill = "dodgerblue") +
+                             method = lm, se = TRUE, lwd = 1, color = "red", fullrange = TRUE, fill = "dodgerblue") +
         geom_point(data = check.2, aes(x = log(standard)^2, y = log(AUC_ppm), fill = "Check"), size = 4, shape = 21, alpha = .5) +
         geom_point(data = curv.2, aes(x = log(standard)^2, y = log(AUC_ppm), fill = "Curve"), size = 3, shape = 24, alpha = .5) +
         scale_fill_manual(name = "Standard", values = c("grey70", "darkblue"), guide = guide_legend(override.aes = list(
@@ -255,7 +255,7 @@ plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = FALSE, 
     } else if(max(curv.2$standard) <= max(check.2$standard)){
       ggplot()+
         geom_smooth(formula = y~x, data = curv.2, aes(x = log(standard)^2, y = log(AUC_ppm)),
-                             method = lm, se = T, lwd = 1, color = "red", fullrange = T, fill = "dodgerblue") +
+                             method = lm, se = TRUE, lwd = 1, color = "red", fullrange = TRUE, fill = "dodgerblue") +
         geom_point(data = check.2, aes(x = log(standard)^2, y = log(AUC_ppm), fill = "Check"), size = 4, shape = 21, alpha = .5) +
         geom_point(data = curv.2, aes(x = log(standard)^2, y = log(AUC_ppm), fill = "Curve"), size = 3, shape = 24, alpha = .5) +
         scale_fill_manual(name = "Standard", values = c("grey70", "darkblue"), guide = guide_legend(override.aes = list(
