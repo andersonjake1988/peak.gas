@@ -1,7 +1,7 @@
 peak.gas Walkthrough
 ================
 Jacob Anderson
-11/9/2021
+12/12/2021
 
 # Introduction
 
@@ -11,17 +11,19 @@ infrared gas analyzers(IRGA).
 
 ### Package functions
 
-there are 4 functions that are included in peak.gas
+there are 2 processing functions that are included in peak.gas, each
+processing function is accompanied by a plotting function
 
--   extract.peaks(cut.off = 2, method = “linear”, standard.sum = F)
+-   extract.peaks(cut.off = 2, method = “linear”, standard.sum = F,
+    check.stand = F, check.alpha = .05, ci.meth = “avg”, verbose = F)
 
--   Plot.extracted(data, file = NULL, sample = NULL, std.curve = F,
-    method = “linear”)
+-   plot(extract.peaks output, file = NULL, sample = NULL, std.curve =
+    F, method = “linear”)
 
 -   timeseries.peaks()
 
--   Plot.timeseries(data, file, sample = NULL, time.start = NULL,
-    time.stop = NULL)
+-   plot(timeseries.peaks output, file, sample = NULL, time.start =
+    NULL, time.stop = NULL)
 
 # File formatting
 
@@ -114,7 +116,7 @@ output <- extract.peaks()
 ```
 
     ## [1] "Looping through Folder:"
-    ##   |                                                                              |                                                                      |   0%  |                                                                              |==================                                                    |  25%  |                                                                              |===================================                                   |  50%  |                                                                              |====================================================                  |  75%  |                                                                              |======================================================================| 100%
+    ##   |                                                                              |                                                                      |   0%  |                                                                              |==================                                                    |  25%  |                                                                              |===================================                                   |  50%  |                                                                              |====================================================                  |  75%  |                                                                              |======================================================================| 100%[1] "done"
 
 ``` r
 # look at output
@@ -122,7 +124,6 @@ head(output)
 ```
 
     ## # A tibble: 6 x 10
-    ## # Groups:   Order_Run [2]
     ##   File_Name           Sample   Replicate Order_Run   AUC  Peak Time_Peak_Start    
     ##   <chr>               <chr>    <chr>         <dbl> <dbl> <dbl> <dttm>             
     ## 1 vn_clear_071621.txt 300curve 1                 1  30.5 10.5  2021-07-16 11:32:07
@@ -154,7 +155,7 @@ output from the extract.peaks() function
 
 ``` r
 # Pulls up a random plot from output
-Plot.extracted(output)
+plot(output)
 ```
 
 ![](README_files/figure-gfm/plot1-1.png)<!-- -->
@@ -163,7 +164,7 @@ Plot.extracted(output)
 
 ``` r
 # plots all samples called "NN_DARKVEG"
-Plot.extracted(output, sample = "NN_DARKVEG")
+plot(output, sample = "NN_DARKVEG")
 ```
 
 ![](README_files/figure-gfm/plot2-1.png)<!-- -->
@@ -172,7 +173,7 @@ Plot.extracted(output, sample = "NN_DARKVEG")
 
 ``` r
 # plots all samples called "NN_DARKVEG" from file "vn_darkveg_071621.txt"
-Plot.extracted(output, file = "vn_darkveg_071621.txt", sample = "NC_DARKVEG")
+plot(output, file = "vn_darkveg_071621.txt", sample = "NC_DARKVEG")
 ```
 
 ![](README_files/figure-gfm/plot3-1.png)<!-- -->
@@ -181,7 +182,7 @@ Plot.extracted(output, file = "vn_darkveg_071621.txt", sample = "NC_DARKVEG")
 
 ``` r
 # Plots the total linear standard curve using all files
-Plot.extracted(output, std.curve = T)
+plot(output, std.curve = T)
 ```
 
 ![](README_files/figure-gfm/plot4-1.png)<!-- -->
@@ -190,7 +191,7 @@ Plot.extracted(output, std.curve = T)
 
 ``` r
 # Plots the total log transformed standard curve using all files
-Plot.extracted(output, std.curve = T, method = 'log')
+plot(output, std.curve = T, method = 'log')
 ```
 
 ![](README_files/figure-gfm/plot5-1.png)<!-- -->
@@ -199,7 +200,7 @@ Plot.extracted(output, std.curve = T, method = 'log')
 
 ``` r
 # Plots the standard curve for the file "vn_clear_07292021.txt"
-Plot.extracted(output, file = "vn_clear_07292021.txt", std.curve = T)
+plot(output, file = "vn_clear_07292021.txt", std.curve = T)
 ```
 
 ![](README_files/figure-gfm/plot6-1.png)<!-- -->
@@ -229,13 +230,13 @@ test <- timeseries.peaks()
 head(test)
 ```
 
-    ##      Sample                Time   CO2                File
-    ## 46 300curve 2021-07-16 11:31:44 -1.16 vn_clear_071621.txt
-    ## 47 300curve 2021-07-16 11:31:45 -1.02 vn_clear_071621.txt
-    ## 48 300curve 2021-07-16 11:31:46 -1.14 vn_clear_071621.txt
-    ## 49 300curve 2021-07-16 11:31:47 -1.03 vn_clear_071621.txt
-    ## 50 300curve 2021-07-16 11:31:48 -0.88 vn_clear_071621.txt
-    ## 52 300curve 2021-07-16 11:31:49 -0.87 vn_clear_071621.txt
+    ##                   File   Sample                Time   CO2
+    ## 46 vn_clear_071621.txt 300curve 2021-07-16 11:31:44 -1.16
+    ## 47 vn_clear_071621.txt 300curve 2021-07-16 11:31:45 -1.02
+    ## 48 vn_clear_071621.txt 300curve 2021-07-16 11:31:46 -1.14
+    ## 49 vn_clear_071621.txt 300curve 2021-07-16 11:31:47 -1.03
+    ## 50 vn_clear_071621.txt 300curve 2021-07-16 11:31:48 -0.88
+    ## 52 vn_clear_071621.txt 300curve 2021-07-16 11:31:49 -0.87
 
 ## Plot.timeseries(data, file, sample = NULL, time.start = NULL, time.stop = NULL)
 
@@ -253,7 +254,7 @@ head(test)
 
 ``` r
 # plot timeseries by file
-Plot.timeseries(test, file = "vn_veg_07292021.txt")
+plot(test, file = "vn_veg_07292021.txt")
 ```
 
 ![](README_files/figure-gfm/tsplot1-1.png)<!-- -->
@@ -262,7 +263,7 @@ Plot.timeseries(test, file = "vn_veg_07292021.txt")
 
 ``` r
 # Plot timeseris by file and sample name
-Plot.timeseries(test, file = "vn_veg_07292021.txt", sample = "500curve")
+plot(test, file = "vn_veg_07292021.txt", sample = "500curve")
 ```
 
 ![](README_files/figure-gfm/tsplot2-1.png)<!-- -->
@@ -271,7 +272,7 @@ Plot.timeseries(test, file = "vn_veg_07292021.txt", sample = "500curve")
 
 ``` r
 # plot timeseries by file starting after "2021-08-02 13:30:00"
-Plot.timeseries(test, file = "vn_veg_07292021.txt", time.start = "2021-08-02 13:30:00")
+plot(test, file = "vn_veg_07292021.txt", time.start = "2021-08-02 13:30:00")
 ```
 
 ![](README_files/figure-gfm/tsplot3-1.png)<!-- -->
@@ -280,7 +281,7 @@ Plot.timeseries(test, file = "vn_veg_07292021.txt", time.start = "2021-08-02 13:
 
 ``` r
 # plot timeseries by file starting before "2021-08-02 12:40:00"
-Plot.timeseries(test, file = "vn_veg_07292021.txt", time.stop = "2021-08-02 12:40:00")
+plot(test, file = "vn_veg_07292021.txt", time.stop = "2021-08-02 12:40:00")
 ```
 
 ![](README_files/figure-gfm/tsplot4-1.png)<!-- -->
@@ -289,7 +290,7 @@ Plot.timeseries(test, file = "vn_veg_07292021.txt", time.stop = "2021-08-02 12:4
 
 ``` r
 # plot timeseries by file between the times "2021-08-02 12:45:00" and "2021-08-02 13:00:00"
-Plot.timeseries(test, file = "vn_veg_07292021.txt", time.start = "2021-08-02 12:45:00", time.stop = "2021-08-02 13:00:00")
+plot(test, file = "vn_veg_07292021.txt", time.start = "2021-08-02 12:45:00", time.stop = "2021-08-02 13:00:00")
 ```
 
 ![](README_files/figure-gfm/tsplot5-1.png)<!-- -->
