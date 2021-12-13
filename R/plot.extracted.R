@@ -13,16 +13,16 @@
 #' @import stringr
 #' @examples
 #' ex.output <- extract.peaks(directory = path.package("peak.gas"))
-#' plot(ex.output, std.curve = T)
-#' plot(ex.output, file = "vn_clear_071621.txt", std.curve = T)
-#' plot(ex.output, file = "vn_clear_07292021.txt", std.curve = T)
-#' plot(ex.output, file = "vn_veg_07292021.txt", std.curve = T)
+#' plot(ex.output, std.curve = TRUE)
+#' plot(ex.output, file = "vn_clear_071621.txt", std.curve = TRUE)
+#' plot(ex.output, file = "vn_clear_07292021.txt", std.curve = TRUE)
+#' plot(ex.output, file = "vn_veg_07292021.txt", std.curve = TRUE)
 #' plot(ex.output, file = "vn_darkveg_071621.txt")
 #' plot(ex.output, sample = "NN_DARKVEG")
 #' plot(ex.output, file = "vn_darkveg_071621.txt", sample = "NC_DARKVEG")
 #' @export
 
-plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = F, method = "linear"){
+plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = FALSE, method = "linear"){
   UNR <- function(){
     theme(text = element_text(color = "black", size = 15),
                    plot.title = element_text(face = "bold", color = "darkblue", margin = margin(b = 15)),

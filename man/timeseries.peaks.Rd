@@ -4,7 +4,7 @@
 \alias{timeseries.peaks}
 \title{A function to combine and name timeseries text files}
 \usage{
-timeseries.peaks(directory = choose.dir(), verbose = T)
+timeseries.peaks(directory = choose.dir(), verbose = TRUE)
 }
 \arguments{
 \item{directory}{Path to directory containing the files to be processed. Defaults to user selection window.}

@@ -4,7 +4,7 @@
 \alias{plot.extracted}
 \title{A Plotting function used with output from CO2 Peak finding function}
 \usage{
-\method{plot}{extracted}(data, file = NULL, sample = NULL, std.curve = F, method = "linear")
+\method{plot}{extracted}(data, file = NULL, sample = NULL, std.curve = FALSE, method = "linear")
 }
 \arguments{
 \item{data}{output from the extract.peaks() function}
@@ -22,10 +22,10 @@ This function provides a plotting framework for exploring the data output from t
 }
 \examples{
 ex.output <- extract.peaks(directory = path.package("peak.gas"))
-plot(ex.output, std.curve = T)
-plot(ex.output, file = "vn_clear_071621.txt", std.curve = T)
-plot(ex.output, file = "vn_clear_07292021.txt", std.curve = T)
-plot(ex.output, file = "vn_veg_07292021.txt", std.curve = T)
+plot(ex.output, std.curve = TRUE)
+plot(ex.output, file = "vn_clear_071621.txt", std.curve = TRUE)
+plot(ex.output, file = "vn_clear_07292021.txt", std.curve = TRUE)
+plot(ex.output, file = "vn_veg_07292021.txt", std.curve = TRUE)
 plot(ex.output, file = "vn_darkveg_071621.txt")
 plot(ex.output, sample = "NN_DARKVEG")
 plot(ex.output, file = "vn_darkveg_071621.txt", sample = "NC_DARKVEG")

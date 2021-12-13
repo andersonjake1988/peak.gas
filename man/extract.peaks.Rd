@@ -8,11 +8,11 @@
   directory = choose.dir(),
   cut.off = 2,
   method = "linear",
-  standard.sum = F,
-  check.stand = F,
+  standard.sum = FALSE,
+  check.stand = FALSE,
   check.alpha = 0.05,
   ci.meth = "avg",
-  verbose = T
+  verbose = TRUE
 )
 }
 \arguments{

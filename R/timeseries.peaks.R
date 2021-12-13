@@ -12,9 +12,9 @@
 #' ts.output <- timeseries.peaks(directory = path.package("peak.gas"))
 #' @export timeseries.peaks
 
-timeseries.peaks <- function(directory = choose.dir(), verbose = T){
+timeseries.peaks <- function(directory = choose.dir(), verbose = TRUE){
   setwd(directory)
-  if(verbose == T){
+  if(verbose == TRUE){
     message("Working directory set to:")
     message(getwd())
   }
@@ -24,14 +24,14 @@ timeseries.peaks <- function(directory = choose.dir(), verbose = T){
   progress_bar <- txtProgressBar(min = 0, max = length(filelist), style = 3)
   for(i in 1:length(filelist)){
     setTxtProgressBar(progress_bar, i)
-    b <- read.table(filelist[i], header = T, sep = "\t", fill = T, strip.white = T, check.names = F)
+    b <- read.table(filelist[i], header = TRUE, sep = "\t", fill = TRUE, strip.white = TRUE, check.names = FALSE)
     data.1 <- mutate(b, Sample = NA, .before = 1)
     names(data.1) <- c("Sample", "Test", "Time", "CO2")
     data.1 <- cbind(data.1, File = filelist[i])
     data.2 <- filter(data.1, Test != "--------------------------------------------------------------")
     data.3 <- data.2
     for(i in 1:nrow(data.2)){
-      if(is.na(data.2[i,4])==T){
+      if(is.na(data.2[i,4])==TRUE){
         data.3[i,1] <- as.character(data.2[i,2])
       } else {
         next

@@ -20,21 +20,21 @@
 #' ex.output <- extract.peaks(directory = path.package("peak.gas"))
 #' @export extract.peaks
 
-extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linear", standard.sum = F,
-                          check.stand = F, check.alpha = .05, ci.meth = "avg",
-                          verbose = T){
+extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linear", standard.sum = FALSE,
+                          check.stand = FALSE, check.alpha = .05, ci.meth = "avg",
+                          verbose = TRUE){
   setwd(directory)
-  if(verbose == T){
+  if(verbose == TRUE){
     message("Working directory set to:")
     message(getwd())
   }
   if(method != "linear" & method != "log"){
     stop(c("method argument must be either 'linear' or 'log' not ", method))
   }
-  if(standard.sum != T & standard.sum != F){
+  if(standard.sum != TRUE & standard.sum != FALSE){
     stop(c("standard.sum argument must be either 'TRUE' or 'FALSE' not ", standard.sum))
   }
-  if(check.stand != T & check.stand != F){
+  if(check.stand != TRUE & check.stand != FALSE){
     stop(c("check.stand argument must be either 'TRUE' or 'FALSE' not ", check.stand))
   }
   if(check.alpha > 1 | check.alpha <= 0){
@@ -43,7 +43,7 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
   if(ci.meth != "avg" & ci.meth != "indiv"){
     stop(c("ci.meth must be either 'avg' or 'indiv' not ", ci.meth))
   }
-  if(verbose != T & check.stand != F){
+  if(verbose != TRUE & check.stand != FALSE){
     stop(c("verbose argument must be either 'TRUE' or 'FALSE' not ", verbose))
   }
   Peaks <- function(x){
