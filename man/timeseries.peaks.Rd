@@ -4,14 +4,18 @@
 \alias{timeseries.peaks}
 \title{A function to combine and name timeseries text files}
 \usage{
-timeseries.peaks()
+timeseries.peaks(directory = choose.dir(), verbose = T)
+}
+\arguments{
+\item{directory}{Path to directory containing the files to be processed. Defaults to user selection window.}
+
+\item{verbose}{A logical argument stating whether or not to display all function processing information. Defaults to TRUE}
 }
 \description{
 This function will loop through a folder containing text file outputs to combine and assign sample names, outputing a single timeseries
 }
 \examples{
-setwd(path.package("peak.gas"))
-output <- timeseries.peaks()
+ts.output <- timeseries.peaks(directory = path.package("peak.gas"))
 }
 \keyword{CO2,}
 \keyword{Li-Cor,}

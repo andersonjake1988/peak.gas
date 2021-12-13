@@ -12,15 +12,14 @@
 #' @import dplyr
 #' @import stringr
 #' @examples
-#' setwd(path.package("peak.gas"))
-#' output <- extract.peaks()
-#' plot.extracted(output, std.curve = T)
-#' plot.extracted(output, file = "vn_clear_071621.txt", std.curve = T)
-#' plot.extracted(output, file = "vn_clear_07292021.txt", std.curve = T)
-#' plot.extracted(output, file = "vn_veg_07292021.txt", std.curve = T)
-#' plot.extracted(output, file = "vn_darkveg_071621.txt")
-#' plot.extracted(output, sample = "NN_DARKVEG")
-#' plot.extracted(output, file = "vn_darkveg_071621.txt", sample = "NC_DARKVEG")
+#' ex.output <- extract.peaks(directory = path.package("peak.gas"))
+#' plot(ex.output, std.curve = T)
+#' plot(ex.output, file = "vn_clear_071621.txt", std.curve = T)
+#' plot(ex.output, file = "vn_clear_07292021.txt", std.curve = T)
+#' plot(ex.output, file = "vn_veg_07292021.txt", std.curve = T)
+#' plot(ex.output, file = "vn_darkveg_071621.txt")
+#' plot(ex.output, sample = "NN_DARKVEG")
+#' plot(ex.output, file = "vn_darkveg_071621.txt", sample = "NC_DARKVEG")
 #' @export
 
 plot.extracted <- function(data, file = NULL, sample = NULL, std.curve = F, method = "linear"){

@@ -13,18 +13,17 @@
 #' @import lubridate
 #' @import stringr
 #' @examples
-#' setwd(path.package("peak.gas"))
-#' test <- timeseries.peaks()
+#' ts.output <- timeseries.peaks(directory = path.package("peak.gas"))
 #' # File wide examples
-#' Plot.timeseries(test, file = "vn_veg_07292021.txt")
-#' Plot.timeseries(test, file = "vn_veg_07292021.txt", time.start = "2021-08-02 13:30:00")
-#' Plot.timeseries(test, file = "vn_veg_07292021.txt", time.stop = "2021-08-02 12:40:00")
-#' Plot.timeseries(test, file = "vn_veg_07292021.txt", time.start = "2021-08-02 12:45:00", time.stop = "2021-08-02 13:00:00")
+#' plot(ts.output, file = "vn_veg_07292021.txt")
+#' plot(ts.output, file = "vn_veg_07292021.txt", time.start = "2021-08-02 13:30:00")
+#' plot(ts.output, file = "vn_veg_07292021.txt", time.stop = "2021-08-02 12:40:00")
+#' plot(ts.output, file = "vn_veg_07292021.txt", time.start = "2021-08-02 12:45:00", time.stop = "2021-08-02 13:00:00")
 #' # Specific Sample examples
-#' Plot.timeseries(test, file = "vn_veg_07292021.txt", sample = "NS_Veg")
-#' Plot.timeseries(test, file = "vn_veg_07292021.txt", sample = "NS_Veg", time.start = "2021-08-02 13:01:00")
-#' Plot.timeseries(test, file = "vn_veg_07292021.txt", sample = "NS_Veg", time.stop = "2021-08-02 12:54:00")
-#' Plot.timeseries(test, file = "vn_veg_07292021.txt", sample = "NS_Veg", time.start = "2021-08-02 12:56:00", time.stop = "2021-08-02 13:01:00")
+#' plot(ts.output, file = "vn_veg_07292021.txt", sample = "NS_Veg")
+#' plot(ts.output, file = "vn_veg_07292021.txt", sample = "NS_Veg", time.start = "2021-08-02 13:01:00")
+#' plot(ts.output, file = "vn_veg_07292021.txt", sample = "NS_Veg", time.stop = "2021-08-02 12:54:00")
+#' plot(ts.output, file = "vn_veg_07292021.txt", sample = "NS_Veg", time.start = "2021-08-02 12:56:00", time.stop = "2021-08-02 13:01:00")
 #' @export
 
 plot.timeseries <- function(data, file, sample = NULL, time.start = NULL, time.stop = NULL){

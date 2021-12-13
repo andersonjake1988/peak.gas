@@ -1,5 +1,5 @@
 Package: peak.gas
-Title: What the Package Does (One Line, Title Case)
+Title: timeseries peak data processing package
 Version: 1.0
 Authors@R: 
     person(given = "Jacob",
@@ -8,6 +8,12 @@ Authors@R:
            email = "jacob.anderson.science@gmail.com",
            comment = c(ORCID = "0000-0003-2098-4257"))
 Description: What the package does (one paragraph).
+Imports:
+    dplyr,
+    ggplot2,
+    lubridate,
+    stringr,
+    tidyr
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8

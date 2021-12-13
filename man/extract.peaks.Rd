@@ -4,17 +4,20 @@
 \alias{extract.peaks}
 \title{A CO2 peak finding function designed for Li-Cor LI-8100A}
 \usage{
-extract.peaks(
+\method{extract}{peaks}(
+  directory = choose.dir(),
   cut.off = 2,
   method = "linear",
   standard.sum = F,
   check.stand = F,
   check.alpha = 0.05,
   ci.meth = "avg",
-  verbose = F
+  verbose = T
 )
 }
 \arguments{
+\item{directory}{Path to directory containing the files to be processed. Defaults to user selection window.}
+
 \item{cut.off}{Cut off value used to define when the peak should start and end. Defaults to 2.}
 
 \item{method}{select regression method used for the standard curve, either "linear", or "log".}
@@ -26,14 +29,15 @@ extract.peaks(
 \item{check.alpha}{The value (0-1) you want to accept for check standards deviation, lower numbers indicate the confidence interval increases.}
 
 \item{ci.meth}{Argument to specify whether to compare average ("avg") check standard AUC values, or individual ("indiv") check standard AUC values}
+
+\item{verbose}{A logical argument stating whether or not to display all function processing information. Defaults to TRUE.}
 }
 \description{
 This function provides user's of a LI-8100A Li-Cor Analyzer a simple way to extract and compile peak results from CO2 peak data.
 It will loop through a folder containing the text files that the Li-Cor Analyzer outputs, and compiles the results into a single R dataframe.
 }
 \examples{
-setwd(path.package("peak.gas"))
-output <- extract.peaks()
+ex.output <- extract.peaks(directory = path.package("peak.gas"))
 }
 \keyword{CO2,}
 \keyword{Li-Cor,}

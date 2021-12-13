@@ -3,12 +3,13 @@
 #' This function will loop through a folder containing text file outputs to combine and assign sample names, outputing a single timeseries
 #'
 #' @keywords LiCor, Peak, CO2, Li-Cor, gas, plot
+#' @param directory Path to directory containing the files to be processed. Defaults to user selection window.
+#' @param verbose A logical argument stating whether or not to display all function processing information. Defaults to TRUE
 #' @import dplyr
 #' @import lubridate
 #' @import tidyr
 #' @examples
-#' setwd(path.package("peak.gas"))
-#' output <- timeseries.peaks()
+#' ts.output <- timeseries.peaks(directory = path.package("peak.gas"))
 #' @export
 
 timeseries.peaks <- function(directory = choose.dir(), verbose = T){
