@@ -2,12 +2,12 @@
 #'
 #' This function provides a plotting framework for exploring the data output from the extract.peaks() function
 #'
+#' @keywords LiCor, Peak, CO2, Li-Cor, gas, plot
 #' @param data output from the extract.peaks() function
 #' @param file the name of the file the user wishes to look at
 #' @param sample the specific sample the user wishes to look at
 #' @param std.curve a logical argument that states whether the user wishes to look at the standard curve or not
 #' @param method Specify whether you want to plot the "linear" relationship or the "log" transformed relationship
-#' @keywords LiCor, Peak, CO2, Li-Cor, gas, plot
 #' @import ggplot2
 #' @import dplyr
 #' @import stringr

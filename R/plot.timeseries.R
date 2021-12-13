@@ -2,12 +2,12 @@
 #'
 #' This function provides a plotting framework for exploring the data output from the timeseries.peaks() function
 #'
+#' @keywords LiCor, Peak, CO2, Li-Cor, gas, plot
 #' @param data output from the timeseries.peaks() function
 #' @param file the name of the file the user wishes to plot
 #' @param sample the specific sample the user wishes to plot
 #' @param time.start option to specify when you want the plot to start
 #' @param time.stop option to specify when you want the plot to stop
-#' @keywords LiCor, Peak, CO2, Li-Cor, gas, plot
 #' @import ggplot2
 #' @import dplyr
 #' @import lubridate

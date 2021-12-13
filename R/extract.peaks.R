@@ -3,6 +3,7 @@
 #' This function provides user's of a LI-8100A Li-Cor Analyzer a simple way to extract and compile peak results from CO2 peak data.
 #' It will loop through a folder containing the text files that the Li-Cor Analyzer outputs, and compiles the results into a single R dataframe.
 #'
+#' @keywords LiCor, Peak, CO2, gas, Li-Cor, extract
 #' @param directory Path to directory containing the files to be processed. Defaults to user selection window.
 #' @param cut.off Cut off value used to define when the peak should start and end. Defaults to 2.
 #' @param method select regression method used for the standard curve, either "linear", or "log".
@@ -11,14 +12,13 @@
 #' @param check.alpha The value (0-1) you want to accept for check standards deviation, lower numbers indicate the confidence interval increases.
 #' @param ci.meth Argument to specify whether to compare average ("avg") check standard AUC values, or individual ("indiv") check standard AUC values
 #' @param verbose A logical argument stating whether or not to display all function processing information. Defaults to TRUE.
-#' @keywords LiCor, Peak, CO2, gas, Li-Cor, extract
 #' @import dplyr
 #' @import tidyr
 #' @import lubridate
 #' @import stringr
 #' @examples
 #' ex.output <- extract.peaks(directory = path.package("peak.gas"))
-#' @export
+#' @export extract.peaks
 
 extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linear", standard.sum = F,
                           check.stand = F, check.alpha = .05, ci.meth = "avg",

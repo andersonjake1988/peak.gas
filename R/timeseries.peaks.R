@@ -10,7 +10,7 @@
 #' @import tidyr
 #' @examples
 #' ts.output <- timeseries.peaks(directory = path.package("peak.gas"))
-#' @export
+#' @export timeseries.peaks
 
 timeseries.peaks <- function(directory = choose.dir(), verbose = T){
   setwd(directory)
