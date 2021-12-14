@@ -185,8 +185,3 @@ plot.timeseries <- function(data, file, sample = NULL, time.start = NULL, time.s
       UNR()
   }
 }
-
-plot.timeseries(data = ts.output, file = "vn_veg_07292021.txt", time.start = "2021-08-02 13:30:00")
-
-library(tidyverse)
-library(lubridate)
