@@ -72,27 +72,6 @@ extract.peaks() function will loop through a folder of text files
 sharing identical formatting to combine and output a single dataframe
 containing the columns:
 
-1.  **File_Name:** The file name containing the data
-2.  **Sample:** The sample annotations found within the file
-3.  **Replicate:** The individual peaks found in each sample annotation
-4.  **Order_run:** The numbered order that the sample was run in each
-    file
-5.  **AUC:** The sum of the area under the curve of each peak before
-    standard calibration
-6.  **Peak:** The maximum peak value recorded before standard
-    calibration
-7.  **Time_Peak_Start:** Datetime of the value recorded signalling the
-    start of each peak
-8.  **Time_Peak_Stop:** Datetime of the value recorded signalling the
-    end of each peak
-9.  **Timespan\_(s):** The duration of each peak
-10. **AUC_ppm:** The sum of the area under the curve of each peak
-    corrected using a standard calibration curve of known
-    concentrations.
-
-![Example output from the extract.peaks
-function](https://github.com/andersonjake1988/peak.gas/blob/main/inst/Screenshot1.png)
-
 ### Arguments of extract.peaks
 
 -   **directory** The path to the directory (folder) that the function
@@ -117,15 +96,39 @@ function](https://github.com/andersonjake1988/peak.gas/blob/main/inst/Screenshot
 -   **verbose** A logical argument stating whether or not to display all
     function processing information. Defaults to TRUE
 
+### Output from extract.peaks
+
+1.  **File_Name:** The file name containing the data
+2.  **Sample:** The sample annotations found within the file
+3.  **Replicate:** The individual peaks found in each sample annotation
+4.  **Order_run:** The numbered order that the sample was run in each
+    file
+5.  **AUC:** The sum of the area under the curve of each peak before
+    standard calibration
+6.  **Peak:** The maximum peak value recorded before standard
+    calibration
+7.  **Time_Peak_Start:** Datetime of the value recorded signalling the
+    start of each peak
+8.  **Time_Peak_Stop:** Datetime of the value recorded signalling the
+    end of each peak
+9.  **Timespan\_(s):** The duration of each peak
+10. **AUC_ppm:** The sum of the area under the curve of each peak
+    corrected using a standard calibration curve of known
+    concentrations.
+
+![Example output from the extract.peaks
+function](https://github.com/andersonjake1988/peak.gas/blob/main/inst/Screenshot1.png)
+
 ### Example of how to use function
 
 ``` r
-# set the working directory to sample data
-setwd(path.package("peak.gas"))
-
 # run extract.peaks() function and store as object
-output <- extract.peaks()
+output <- extract.peaks(directory = path.package("peak.gas"))
 ```
+
+    ## Working directory set to:
+
+    ## C:/Users/ander/Documents/R/win-library/4.1/peak.gas
 
     ## [1] "Looping through Folder:"
     ##   |                                                                              |                                                                      |   0%  |                                                                              |==================                                                    |  25%  |                                                                              |===================================                                   |  50%  |                                                                              |====================================================                  |  75%  |                                                                              |======================================================================| 100%[1] "done"
@@ -136,14 +139,14 @@ head(output)
 ```
 
     ## # A tibble: 6 x 10
-    ##   File_Name           Sample   Replicate Order_Run   AUC  Peak Time_Peak_Start    
-    ##   <chr>               <chr>    <chr>         <dbl> <dbl> <dbl> <dttm>             
-    ## 1 vn_clear_071621.txt 300curve 1                 1  30.5 10.5  2021-07-16 11:32:07
-    ## 2 vn_clear_071621.txt 300curve 2                 1  24.4  9.02 2021-07-16 11:32:51
-    ## 3 vn_clear_071621.txt 300curve 3                 1  23.2  8.69 2021-07-16 11:33:19
-    ## 4 vn_clear_071621.txt 500curve 1                 2  44.8 14.4  2021-07-16 11:34:25
-    ## 5 vn_clear_071621.txt 500curve 2                 2  46.8 14.9  2021-07-16 11:35:18
-    ## 6 vn_clear_071621.txt 500curve 3                 2  47.7 15.4  2021-07-16 11:36:03
+    ##   File_Name           Sample Replicate Order_Run   AUC  Peak Time_Peak_Start    
+    ##   <chr>               <chr>  <chr>         <dbl> <dbl> <dbl> <dttm>             
+    ## 1 vn_clear_071621.txt 300cu~ 1                 1  30.5 10.5  2021-07-16 11:32:07
+    ## 2 vn_clear_071621.txt 300cu~ 2                 1  24.4  9.02 2021-07-16 11:32:51
+    ## 3 vn_clear_071621.txt 300cu~ 3                 1  23.2  8.69 2021-07-16 11:33:19
+    ## 4 vn_clear_071621.txt 500cu~ 1                 2  44.8 14.4  2021-07-16 11:34:25
+    ## 5 vn_clear_071621.txt 500cu~ 2                 2  46.8 14.9  2021-07-16 11:35:18
+    ## 6 vn_clear_071621.txt 500cu~ 3                 2  47.7 15.4  2021-07-16 11:36:03
     ## # ... with 3 more variables: Time_Peak_End <dttm>, Timespan_(s) <dbl>,
     ## #   AUC_ppm <dbl>
 
@@ -238,9 +241,12 @@ function.*
 ### Examples
 
 ``` r
-setwd(path.package("peak.gas"))
-test <- timeseries.peaks()
+test <- timeseries.peaks(directory = path.package("peak.gas"))
 ```
+
+    ## Working directory set to:
+
+    ## C:/Users/ander/Documents/R/win-library/4.1/peak.gas
 
     ## [1] "Looping through Folder:"
     ##   |                                                                              |                                                                      |   0%  |                                                                              |==================                                                    |  25%  |                                                                              |===================================                                   |  50%  |                                                                              |====================================================                  |  75%  |                                                                              |======================================================================| 100%

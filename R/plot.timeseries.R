@@ -78,20 +78,64 @@ plot.timeseries <- function(data, file, sample = NULL, time.start = NULL, time.s
   } else if(!is.null(file) & is.null(sample) & !is.null(time.start) & is.null(time.stop)){
     file.plot <- filter(data, File == file)
     start <- filter(file.plot, Time >= as_datetime(time.start))
+    vline <- as_datetime(time.start)
+    txt <- vector()
+    for(i in 1:(nrow(start)-1)){
+      if(start$Sample[i] != start$Sample[i+1]){
+        vline <- c(vline, start$Time[i])
+        txt <- c(txt, start$Sample[i])
+      } else{
+        next
+      }
+    }
+    txt <- c(txt, filter(start, Time == max(Time))$Sample)
+    vline <- c(vline, max(start$Time))
+    pos <- diff.POSIXt(as_datetime(vline))/2
+    text.pos <- vector()
+    for(i in 1:length(pos)){
+      text.pos[i] <- vline[i] + pos[i]
+    }
     samples <- paste0(unique(start$Sample), collapse = ', ')
     samples.2 <- str_wrap(samples, width = 40)
-    ggplot(start, aes(x = Time, y = CO2))+
-      geom_line(color = "blue")+
-      ggtitle(paste0("File: ", " ", file, "\nSamples: ", samples.2))+
+    ggplot()+
+      geom_line(data = start, aes(x = Time, y = CO2), color = "blue")+
+      geom_vline(xintercept = vline, color = "firebrick")+
+      ggtitle(paste0("File: ", " ", file))+
+      geom_text(label = txt, show.legend = F,
+                aes(x = as_datetime(text.pos), y = max(start.stop$CO2)/.85, angle = 90, color = txt),
+                size = 3.5)+
+      expand_limits(y = max(start$CO2)/.75)+
       UNR()
   } else if(!is.null(file) & is.null(sample) & is.null(time.start) & !is.null(time.stop)){
     file.plot <- filter(data, File == file)
     stop <- filter(file.plot, Time <= as_datetime(time.stop))
+    vline <- as_datetime(min(stop$Time))
+    txt <- vector()
+    for(i in 1:(nrow(stop)-1)){
+      if(stop$Sample[i] != stop$Sample[i+1]){
+        vline <- c(vline, stop$Time[i])
+        txt <- c(txt, stop$Sample[i])
+      } else{
+        next
+      }
+    }
+    txt <- c(txt, filter(stop, Time == max(Time))$Sample)
+    vline <- c(vline, max(stop$Time))
+    pos <- diff.POSIXt(as_datetime(vline))/2
+    text.pos <- vector()
+    for(i in 1:length(pos)){
+      text.pos[i] <- vline[i] + pos[i]
+    }
     samples <- paste0(unique(stop$Sample), collapse = ', ')
     samples.2 <- str_wrap(samples, width = 40)
-    ggplot(stop, aes(x = Time, y = CO2))+
-      geom_line(color = "blue")+
-      ggtitle(paste0("File: ", " ", file, "\nSamples: ", samples.2))+
+    ggplot()+
+      geom_line(data = stop, aes(x = Time, y = CO2), color = "blue")+
+      geom_vline(xintercept = vline, color = "firebrick")+
+      ggtitle(paste0("File: ", " ", file))+
+      geom_text(label = txt, show.legend = F,
+                aes(x = as_datetime(text.pos), y = max(start.stop$CO2)/.85, angle = 90, color = txt),
+                size = 3.5)+
+      expand_limits(y = max(stop$CO2)/.75)+
       UNR()
   } else if(!is.null(file) & !is.null(sample) & is.null(time.start) & !is.null(time.stop)){
     file.plot <- filter(data, File == file)
@@ -104,11 +148,32 @@ plot.timeseries <- function(data, file, sample = NULL, time.start = NULL, time.s
   } else if(!is.null(file) & is.null(sample) & !is.null(time.start) & !is.null(time.stop)){
     file.plot <- filter(data, File == file)
     start.stop <- filter(file.plot, Time >= as_datetime(time.start) & Time <= as_datetime(time.stop))
+    vline <- as_datetime(min(start.stop$Time))
+    txt <- vector()
+    for(i in 1:(nrow(start.stop)-1)){
+      if(start.stop$Sample[i] != start.stop$Sample[i+1]){
+        vline <- c(vline, start.stop$Time[i])
+        txt <- c(txt, start.stop$Sample[i])
+      } else{
+        next
+      }
+    }
+    txt <- c(txt, filter(start.stop, Time == max(Time))$Sample)
+    vline <- c(vline, max(start.stop$Time))
+    pos <- diff.POSIXt(as_datetime(vline))/2
+    text.pos <- vector()
+    for(i in 1:length(pos)){
+      text.pos[i] <- vline[i] + pos[i]
+    }
     samples <- paste0(unique(start.stop$Sample), collapse = ', ')
-    samples.2 <- str_wrap(samples, width = 40)
-    ggplot(start.stop, aes(x = Time, y = CO2))+
-      geom_line(color = "blue")+
-      ggtitle(paste0("File: ", " ", file, "\nSamples: ", samples))+
+    ggplot()+
+      geom_line(data = start.stop, aes(x = Time, y = CO2), color = "blue")+
+      geom_vline(xintercept = vline, color = "firebrick")+
+      ggtitle(paste0("File: ", " ", file))+
+      expand_limits(y = max(start.stop$CO2)/.75)+
+      geom_text(label = txt, show.legend = F,
+                aes(x = as_datetime(text.pos), y = max(start.stop$CO2)/.85, angle = 90, color = txt),
+                size = 3.5)+
       UNR()
   } else if(!is.null(file) & !is.null(sample) & !is.null(time.start) & !is.null(time.stop)){
     file.plot <- filter(data, File == file)
@@ -120,3 +185,8 @@ plot.timeseries <- function(data, file, sample = NULL, time.start = NULL, time.s
       UNR()
   }
 }
+
+plot.timeseries(data = ts.output, file = "vn_veg_07292021.txt", time.start = "2021-08-02 13:30:00")
+
+library(tidyverse)
+library(lubridate)
