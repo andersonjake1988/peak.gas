@@ -102,7 +102,7 @@ plot.timeseries <- function(data, file, sample = NULL, time.start = NULL, time.s
       geom_vline(xintercept = vline, color = "firebrick")+
       ggtitle(paste0("File: ", " ", file))+
       geom_text(label = txt, show.legend = F,
-                aes(x = as_datetime(text.pos), y = max(start.stop$CO2)/.85, angle = 90, color = txt),
+                aes(x = as_datetime(text.pos), y = max(start$CO2)/.85, angle = 90, color = txt),
                 size = 3.5)+
       expand_limits(y = max(start$CO2)/.75)+
       UNR()
@@ -133,7 +133,7 @@ plot.timeseries <- function(data, file, sample = NULL, time.start = NULL, time.s
       geom_vline(xintercept = vline, color = "firebrick")+
       ggtitle(paste0("File: ", " ", file))+
       geom_text(label = txt, show.legend = F,
-                aes(x = as_datetime(text.pos), y = max(start.stop$CO2)/.85, angle = 90, color = txt),
+                aes(x = as_datetime(text.pos), y = max(stop$CO2)/.85, angle = 90, color = txt),
                 size = 3.5)+
       expand_limits(y = max(stop$CO2)/.75)+
       UNR()
