@@ -62,9 +62,9 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
     print("Looping through Folder:")
     progress_bar <- txtProgressBar(min = 0, max = length(filelist), style = 3)
   }
-  for(i in 1:length(filelist)){
+  for(a in 1:length(filelist)){
     if(verbose == TRUE){
-      setTxtProgressBar(progress_bar, i)
+      setTxtProgressBar(progress_bar, a)
     }
     b <- read.table(filelist[a], header = TRUE, sep = "\t", fill = TRUE, strip.white = TRUE, check.names = FALSE)
     if(length(b) != 3){
@@ -166,7 +166,9 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
     }
     output.raw <- rbind(output.raw, test.5)
   }
-  print("done")
+  if(verbose == TRUE){
+    print("done")
+  }
   output <- output.raw %>%
     group_by(Sample, Order_Run) %>%
     unite("Sample", Sample, Replicate, sep = ". ") %>%
