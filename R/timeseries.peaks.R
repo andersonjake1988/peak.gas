@@ -20,10 +20,14 @@ timeseries.peaks <- function(directory = choose.dir(), verbose = TRUE){
   }
   filelist <- list.files(pattern = c(".txt", ".TXT"))
   output.raw <- data.frame()
-  print("Looping through Folder:")
-  progress_bar <- txtProgressBar(min = 0, max = length(filelist), style = 3)
+  if(verbose == TRUE){
+    print("Looping through Folder:")
+    progress_bar <- txtProgressBar(min = 0, max = length(filelist), style = 3)
+  }
   for(i in 1:length(filelist)){
-    setTxtProgressBar(progress_bar, i)
+    if(verbose == TRUE){
+      setTxtProgressBar(progress_bar, i)
+    }
     b <- read.table(filelist[i], header = TRUE, sep = "\t", fill = TRUE, strip.white = TRUE, check.names = FALSE)
     data.1 <- mutate(b, Sample = NA, .before = 1)
     names(data.1) <- c("Sample", "Test", "Time", "CO2")

@@ -58,10 +58,14 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
   }
   filelist <- list.files(pattern = c(".txt", ".TXT"))
   output.raw <- data.frame()
-  print("Looping through Folder:")
-  progress_bar <- txtProgressBar(min = 0, max = length(filelist), style = 3)
-  for(a in 1:length(filelist)){
-    setTxtProgressBar(progress_bar, a)
+  if(verbose == TRUE){
+    print("Looping through Folder:")
+    progress_bar <- txtProgressBar(min = 0, max = length(filelist), style = 3)
+  }
+  for(i in 1:length(filelist)){
+    if(verbose == TRUE){
+      setTxtProgressBar(progress_bar, i)
+    }
     b <- read.table(filelist[a], header = TRUE, sep = "\t", fill = TRUE, strip.white = TRUE, check.names = FALSE)
     if(length(b) != 3){
       print(' ')
