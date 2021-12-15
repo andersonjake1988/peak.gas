@@ -15,7 +15,7 @@
 #' @examples
 #' ts.output <- timeseries.peaks(directory = path.package("peak.gas"))
 #' # File wide examples
-#' plot(ts.output, file = "vn_veg_07292021.txt")
+#' plot.timeseries(ts.output, file = "vn_veg_07292021.txt")
 #' plot(ts.output, file = "vn_veg_07292021.txt", time.start = "2021-08-02 13:30:00")
 #' plot(ts.output, file = "vn_veg_07292021.txt", time.stop = "2021-08-02 12:40:00")
 #' plot(ts.output, file = "vn_veg_07292021.txt", time.start = "2021-08-02 12:45:00", time.stop = "2021-08-02 13:00:00")
@@ -26,7 +26,12 @@
 #' plot(ts.output, file = "vn_veg_07292021.txt", sample = "NS_Veg", time.start = "2021-08-02 12:56:00", time.stop = "2021-08-02 13:01:00")
 #' @export
 
-plot.timeseries <- function(data, file, sample = NULL, time.start = NULL, time.stop = NULL){
+plot.timeseries <- function(data,
+                            file,
+                            sample = NULL,
+                            samp.div = TRUE,
+                            time.start = min(data$Time),
+                            time.stop = max(data$Time)){
   UNR <- function(){
     theme(text = element_text(color = "black", size = 15),
                    plot.title = element_text(face = "bold", color = "darkblue", margin = margin(b = 15)),
@@ -54,98 +59,21 @@ plot.timeseries <- function(data, file, sample = NULL, time.start = NULL, time.s
                    strip.text.y = element_text(size = 13, face = "bold"),
                    panel.grid = element_blank())
   }
-  if(!is.null(file) & is.null(sample) & is.null(time.start) & is.null(time.stop)){
+  if(is.null(sample) & samp.div == FALSE){
     file.plot <- filter(data, File == file)
     ggplot(file.plot, aes(x = Time, y = CO2)) +
       geom_line(color = "blue") +
       ggtitle(paste0("Time Series Plot for:", " ", file)) +
       UNR()
-  } else if(!is.null(file) & !is.null(sample) & is.null(time.start) & is.null(time.stop)){
+  } else if(!is.null(sample)){
     file.plot <- filter(data, File == file)
     sample.plot <- filter(file.plot, Sample == sample)
-    ggplot(sample.plot, aes(x = Time, y = CO2))+
+    start.stop <- filter(sample.plot, Time >= as_datetime(time.start) & Time <= as_datetime(time.stop))
+    ggplot(start.stop, aes(x = Time, y = CO2))+
       geom_line(color = "blue")+
       ggtitle(paste0("File: ", " ", file, "\nSample: ", sample))+
       UNR()
-  } else if(!is.null(file) & !is.null(sample) & !is.null(time.start) & is.null(time.stop)){
-    file.plot <- filter(data, File == file)
-    sample.plot <- filter(file.plot, Sample == sample)
-    start <- filter(sample.plot, Time >= as_datetime(time.start))
-    ggplot(start, aes(x = Time, y = CO2))+
-      geom_line(color = "blue")+
-      ggtitle(paste0("File: ", " ", file, "\nSample: ", sample))+
-      UNR()
-  } else if(!is.null(file) & is.null(sample) & !is.null(time.start) & is.null(time.stop)){
-    file.plot <- filter(data, File == file)
-    start <- filter(file.plot, Time >= as_datetime(time.start))
-    vline <- as_datetime(time.start)
-    txt <- vector()
-    for(i in 1:(nrow(start)-1)){
-      if(start$Sample[i] != start$Sample[i+1]){
-        vline <- c(vline, start$Time[i])
-        txt <- c(txt, start$Sample[i])
-      } else{
-        next
-      }
-    }
-    txt <- c(txt, filter(start, Time == max(Time))$Sample)
-    vline <- c(vline, max(start$Time))
-    pos <- diff.POSIXt(as_datetime(vline))/2
-    text.pos <- vector()
-    for(i in 1:length(pos)){
-      text.pos[i] <- vline[i] + pos[i]
-    }
-    samples <- paste0(unique(start$Sample), collapse = ', ')
-    samples.2 <- str_wrap(samples, width = 40)
-    ggplot()+
-      geom_line(data = start, aes(x = Time, y = CO2), color = "blue")+
-      geom_vline(xintercept = vline, color = "firebrick")+
-      ggtitle(paste0("File: ", " ", file))+
-      geom_text(label = txt, show.legend = F,
-                aes(x = as_datetime(text.pos), y = max(start$CO2)/.85, angle = 90, color = txt),
-                size = 3.5)+
-      expand_limits(y = max(start$CO2)/.75)+
-      UNR()
-  } else if(!is.null(file) & is.null(sample) & is.null(time.start) & !is.null(time.stop)){
-    file.plot <- filter(data, File == file)
-    stop <- filter(file.plot, Time <= as_datetime(time.stop))
-    vline <- as_datetime(min(stop$Time))
-    txt <- vector()
-    for(i in 1:(nrow(stop)-1)){
-      if(stop$Sample[i] != stop$Sample[i+1]){
-        vline <- c(vline, stop$Time[i])
-        txt <- c(txt, stop$Sample[i])
-      } else{
-        next
-      }
-    }
-    txt <- c(txt, filter(stop, Time == max(Time))$Sample)
-    vline <- c(vline, max(stop$Time))
-    pos <- diff.POSIXt(as_datetime(vline))/2
-    text.pos <- vector()
-    for(i in 1:length(pos)){
-      text.pos[i] <- vline[i] + pos[i]
-    }
-    samples <- paste0(unique(stop$Sample), collapse = ', ')
-    samples.2 <- str_wrap(samples, width = 40)
-    ggplot()+
-      geom_line(data = stop, aes(x = Time, y = CO2), color = "blue")+
-      geom_vline(xintercept = vline, color = "firebrick")+
-      ggtitle(paste0("File: ", " ", file))+
-      geom_text(label = txt, show.legend = F,
-                aes(x = as_datetime(text.pos), y = max(stop$CO2)/.85, angle = 90, color = txt),
-                size = 3.5)+
-      expand_limits(y = max(stop$CO2)/.75)+
-      UNR()
-  } else if(!is.null(file) & !is.null(sample) & is.null(time.start) & !is.null(time.stop)){
-    file.plot <- filter(data, File == file)
-    sample.plot <- filter(file.plot, Sample == sample)
-    stop <- filter(sample.plot, Time <= as_datetime(time.stop))
-    ggplot(stop, aes(x = Time, y = CO2))+
-      geom_line(color = "blue")+
-      ggtitle(paste0("File: ", " ", file, "\nSample: ", sample))+
-      UNR()
-  } else if(!is.null(file) & is.null(sample) & !is.null(time.start) & !is.null(time.stop)){
+  } else if(is.null(sample) & samp.div == TRUE){
     file.plot <- filter(data, File == file)
     start.stop <- filter(file.plot, Time >= as_datetime(time.start) & Time <= as_datetime(time.stop))
     vline <- as_datetime(min(start.stop$Time))
@@ -174,14 +102,6 @@ plot.timeseries <- function(data, file, sample = NULL, time.start = NULL, time.s
       geom_text(label = txt, show.legend = F,
                 aes(x = as_datetime(text.pos), y = max(start.stop$CO2)/.85, angle = 90, color = txt),
                 size = 3.5)+
-      UNR()
-  } else if(!is.null(file) & !is.null(sample) & !is.null(time.start) & !is.null(time.stop)){
-    file.plot <- filter(data, File == file)
-    sample.plot <- filter(file.plot, Sample == sample)
-    start.stop <- filter(sample.plot, Time >= as_datetime(time.start) & Time <= as_datetime(time.stop))
-    ggplot(start.stop, aes(x = Time, y = CO2))+
-      geom_line(color = "blue")+
-      ggtitle(paste0("File: ", " ", file, "\nSample: ", sample))+
       UNR()
   }
 }
