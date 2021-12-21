@@ -274,8 +274,6 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
               }
             }
           }
-        } else{
-          next
         }
       }
       curve[, 2:4] <- sapply(curve[, 2:4], as.numeric)
@@ -411,8 +409,6 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
               }
             }
           }
-        } else{
-          next
         }
       }
       curve[, 2:4] <- sapply(curve[, 2:4], as.numeric)

@@ -4,7 +4,14 @@
 \alias{plot.timeseries}
 \title{A Plotting function used to plot peaks in a time series}
 \usage{
-\method{plot}{timeseries}(data, file, sample = NULL, time.start = NULL, time.stop = NULL)
+\method{plot}{timeseries}(
+  data,
+  file,
+  sample = NULL,
+  samp.div = TRUE,
+  time.start = min(data$Time),
+  time.stop = max(data$Time)
+)
 }
 \arguments{
 \item{data}{output from the timeseries.peaks() function}
@@ -12,6 +19,8 @@
 \item{file}{the name of the file the user wishes to plot}
 
 \item{sample}{the specific sample the user wishes to plot}
+
+\item{samp.div}{A logical call specifying whether or not to divide plot by sample dividers or not. Defaults to TRUE}
 
 \item{time.start}{option to specify when you want the plot to start}
 

@@ -6,6 +6,7 @@
 #' @param data output from the timeseries.peaks() function
 #' @param file the name of the file the user wishes to plot
 #' @param sample the specific sample the user wishes to plot
+#' @param samp.div A logical call specifying whether or not to divide plot by sample dividers or not. Defaults to TRUE
 #' @param time.start option to specify when you want the plot to start
 #' @param time.stop option to specify when you want the plot to stop
 #' @import ggplot2
@@ -15,7 +16,7 @@
 #' @examples
 #' ts.output <- timeseries.peaks(directory = path.package("peak.gas"))
 #' # File wide examples
-#' plot.timeseries(ts.output, file = "vn_veg_07292021.txt")
+#' plot(ts.output, file = "vn_veg_07292021.txt")
 #' plot(ts.output, file = "vn_veg_07292021.txt", time.start = "2021-08-02 13:30:00")
 #' plot(ts.output, file = "vn_veg_07292021.txt", time.stop = "2021-08-02 12:40:00")
 #' plot(ts.output, file = "vn_veg_07292021.txt", time.start = "2021-08-02 12:45:00", time.stop = "2021-08-02 13:00:00")
