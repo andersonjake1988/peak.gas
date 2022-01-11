@@ -102,7 +102,7 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
       summarise("Peaks" = Peaks(CO2)) %>%
       arrange(Sample) %>%
       mutate("Value" = !is.na(Peaks), "Replicate" = NA)
-    test.2 <- cbind(test.2, "Time" = as_datetime(data.4$Time))
+    test.2 <- cbind(test.2, "Time" = lubridate::as_datetime(data.4$Time))
     test.2 <- arrange(test.2, Time)
     r <- 0
     for(i in 1:(length(test.2$Value)-1)){
@@ -171,7 +171,7 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
   }
   output <- output.raw %>%
     group_by(Sample, Order_Run) %>%
-    unite("Sample", Sample, Replicate, sep = ". ") %>%
+    unite("Sample", Sample, Replicate, sep = "__") %>%
     select(-Annotation) %>%
     arrange(Time_Peak_Start)
   preserve.order <- unique(output$File_Name)
@@ -455,7 +455,7 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
       group_by(Standard, File_Name) %>%
       summarise(Mean_ppm = mean(AUC_ppm))
     standard.summary.stats <- left_join(sum.stat, sum.stat2, by = c("File_Name", "Standard"))
-    output <- separate(output, Sample, c("Sample", "Replicate"), sep = ". ")
+    output <- separate(output, Sample, c("Sample", "Replicate"), sep = "__")
     if(standard.sum == TRUE){
       View(standard.summary.stats)
     }
@@ -466,7 +466,7 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
     print(' ')
     warning('No standard curve data found, could not compute concentration')
     output$AUC_ppm <- 0
-    output <- separate(output, Sample, c("Sample", "Replicate"), sep = ". ")
+    output <- tidyr::separate(output, Sample, c("Sample", "Replicate"), sep = "__")
     output_final <- as_tibble(output)
     class(output_final) <- c("extracted", class(output_final))
     return(output_final)

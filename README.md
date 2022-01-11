@@ -263,7 +263,7 @@ head(test)
     ## 50 vn_clear_071621.txt 300curve 2021-07-16 11:31:48 -0.88
     ## 52 vn_clear_071621.txt 300curve 2021-07-16 11:31:49 -0.87
 
-## plot(timeseries.peaks output, file, sample = NULL, time.start = NULL, time.stop = NULL)
+## plot(timeseries.peaks output, file, sample = NULL, samp.div = TRUE, time.start = NULL, time.stop = NULL)
 
 ### Description
 
@@ -275,9 +275,11 @@ from the timeseries.peaks() function
 1.  **data:** the output from the timeseries.peaks() function
 2.  **file:** select a specific file to plot
 3.  **sample:** select a specific sample to plot. Defaults to NULL
-4.  **time.start:** plot data appearing after the value entered.
+4.  **samp.div:** logical statment stating whether or not to display
+    sample dividers in plot. Defaults to TRUE
+5.  **time.start:** plot data appearing after the value entered.
     Defaults to NULL
-5.  **time.stop:** plot data appearing before the value entered.
+6.  **time.stop:** plot data appearing before the value entered.
     Defaults to NULL
 
 ### Examples
