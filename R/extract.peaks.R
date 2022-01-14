@@ -326,8 +326,8 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
         for(j in 1:nrow(dat1)){
           q <- q+1
           new.dat <- dat1[j,]
-          output.1$low[q] <- predict(linmod, newdata = new.dat, interval = 'confidence', level = 1-check.var)[2]
-          output.1$high[q] <- predict(linmod, newdata = new.dat, interval = 'confidence', level = 1-check.var)[3]
+          output.1$low[q] <- predict(linmod, newdata = new.dat, interval = 'confidence', level = 1-check.alpha)[2]
+          output.1$high[q] <- predict(linmod, newdata = new.dat, interval = 'confidence', level = 1-check.alpha)[3]
         }
         asdf <- summary(linmod)
         Y <- asdf$coefficients[1]
@@ -472,6 +472,4 @@ extract.peaks <- function(directory = choose.dir(), cut.off = 2, method = "linea
     return(output_final)
   }
 }
-
-
 
